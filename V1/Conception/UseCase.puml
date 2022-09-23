@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+skinparam packageStyle rect
+skinparam shadowing false
+
+actor User
+
+rectangle bidule {
+    usecase "Entrer du texte" as txt
+    usecase "Selectionner du texte" as select
+    usecase "Copier la séléction" as cp
+    usecase "Coller la selection" as paste
+}
+
+User -> txt
+User -> select
+User -> cp
+User --> paste
+
+@enduml
