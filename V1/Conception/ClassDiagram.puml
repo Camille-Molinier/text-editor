@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Command {
+    execute()
+}
+
+class GUI {
+
+}
+
+class Engine {
+    - buffer
+    + insert()
+    + delete()
+    + deleteSelection()
+
+}
+
+
+class Writing {
+    execute()
+}
+
+class Copy {
+    execute()
+}
+
+class Paste {
+    execute()
+}
+
+class Replace {
+    execute()
+}
+
+class Clipboard {
+}
+
+
+
+
+class command #line.dotted
+
+command ..> Command : command
+command ..> GUI : Invoker
+command ..> Engine : Reciever
+'command ..> App : Client
+
+'App -> Engine
+Engine "1"--"*" Command
+GUI "1"--"*" Command
+Engine "*"--"1" Clipboard
+
+Writing --|> Command
+Copy -down|> Command
+Paste -left|> Command
+Replace -|> Command
+
+
+@enduml

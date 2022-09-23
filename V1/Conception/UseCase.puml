@@ -7,16 +7,18 @@ skinparam shadowing false
 
 actor User
 
-rectangle bidule {
+rectangle textShark {
     usecase "Entrer du texte" as txt
     usecase "Selectionner du texte" as select
     usecase "Copier la séléction" as cp
     usecase "Coller la selection" as paste
+    usecase "Remplacer du texte" as replace
 }
 
 User -> txt
 User -> select
 User -> cp
+User -> replace
 User --> paste
 
 @enduml
