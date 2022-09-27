@@ -1,5 +1,8 @@
+import Interfaces.Invoker;
+import implementaions.GUI;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Invoker app = new GUI();
     }
 }
