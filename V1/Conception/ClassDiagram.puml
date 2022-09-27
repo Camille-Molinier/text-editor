@@ -1,61 +1,86 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+
 interface Command {
-    execute()
+    - receiver
+    + execute()
 }
 
-class GUI {
+interface Invoker {
+    + setCommand(command)
+    + executeCommand()
+}
 
+interface Container {
+    - content
+}
+
+interface Receiver {
+    + copy()
+    + paste()
+    + writing()
+    + replace()
+}
+
+class TerminalGUI {
+    + update()
 }
 
 class Engine {
-    - buffer
-    + insert()
-    + delete()
-    + deleteSelection()
-
+    + copy()
+    + paste()
+    + writing()
+    + replace()
 }
 
-
 class Writing {
-    execute()
+    - receiver
+    + execute()
 }
 
 class Copy {
-    execute()
+    - receiver
+    + execute()
 }
 
 class Paste {
-    execute()
+    - receiver
+    + execute()
 }
 
 class Replace {
-    execute()
+    - receiver
+    + execute()
 }
 
-class Clipboard {
-}
+class Clipboard {}
 
-
-
+class Buffer {}
 
 class command #line.dotted
 
+command ..> Invoker : Invoker
+command ..> Receiver : Receiver
 command ..> Command : command
-command ..> GUI : Invoker
-command ..> Engine : Reciever
-'command ..> App : Client
 
-'App -> Engine
-Engine "1"--"*" Command
-GUI "1"--"*" Command
-Engine "*"--"1" Clipboard
+Receiver "1"-"0...*" Command
+Receiver "*"-down-"1" Container
+Receiver "*"--down"1" Container
 
-Writing --|> Command
-Copy -down|> Command
-Paste -left|> Command
-Replace -|> Command
+Clipboard -up-|> Container
+Buffer -left|> Container
 
+
+Engine -|> Receiver
+
+Invoker "1"--left"*" Command
+
+Writing -up-|> Command
+Copy --up-|> Command
+Paste -up-|> Command
+Replace --up-|> Command
+
+TerminalGUI --|> Invoker
 
 @enduml
