@@ -74,7 +74,7 @@ public class SimpleBuffer implements Buffer {
             }
 
             // insert all char after stop
-            for(int i=stop; i<content.length(); i++){
+            for(int i=stop+1; i<content.length(); i++){
                 tempString+=content.charAt(i);
             }
             content = tempString;

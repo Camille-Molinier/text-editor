@@ -77,10 +77,11 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // set JFrame to stop program on tab close
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // set canvas size
-        this.setSize(600, 600);
+        this.setSize(800, 600);
         // set canvas title
         this.setTitle("Text editor");
-        // change border color
+        // change spawning position
+        this.setLocationRelativeTo(null);
 
         // disable window resizing
         this.setResizable(false);
@@ -176,7 +177,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // instantiate scrollPane
         JScrollPane scrollPane = new JScrollPane(textArea);
         // setup dimension
-        scrollPane.setPreferredSize(new Dimension(585, 550));
+        scrollPane.setPreferredSize(new Dimension(785, 550));
         // change background color
         scrollPane.getVerticalScrollBar().setBackground(new Color(44, 44, 44));
         // change scrollbar size
@@ -188,7 +189,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(39,39,39));
-        panel.setPreferredSize(new Dimension(585, 75));
+        panel.setPreferredSize(new Dimension(775, 75));
         panel.setLayout(new GridLayout(3,3));
 
         // insert components in layout
@@ -242,7 +243,12 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         }
         // if paste button is triggered
         if(e.getSource() == pasteButton) {
-            invoker.setCommand(new Paste(caretPosition));
+            if(secondCaretPosition!=0){
+                System.out.println("Replace");
+                invoker.setCommand(new Replace(caretPosition, secondCaretPosition));
+            } else {
+                invoker.setCommand(new Paste(caretPosition));
+            }
         }
         // if first caret textefield triggered
         if(e.getSource()== caretPositionField){

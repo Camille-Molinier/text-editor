@@ -24,7 +24,7 @@ public interface Receiver {
      * Insert clipboard at specific position
      * @param position insert position
      */
-    void insertClipborad(int position);
+    void insertClipboard(int position);
 
     /**
      * Delete selected content

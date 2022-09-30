@@ -3,20 +3,29 @@ package implementations;
 import Interfaces.Command;
 import Interfaces.Receiver;
 
-public class Paste implements Command {
+public class Replace implements Command {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
     // start position parameter
-    private int position;
+    private int start;
+    // End position parameter
+    private int stop;
 
     private Receiver receiver;
 
     /****************************************************************************************************/
     /*                                            Constructor                                           */
     /****************************************************************************************************/
-    public Paste(int pos) {
-        position = pos;
+    public Replace(int begin, int end) {
+        start = begin;
+        stop = end;
+
+        if(start>stop){
+            int tmp = stop;
+            stop = start;
+            start = tmp;
+        }
 
         receiver = new Engine();
     }
@@ -26,6 +35,8 @@ public class Paste implements Command {
     /****************************************************************************************************/
     @Override
     public void execute() {
-        receiver.insertClipboard(position);
+        receiver.delete(start, stop-1);
+        System.out.println(start);
+        receiver.insertClipboard(start);
     }
 }

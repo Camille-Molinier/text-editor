@@ -57,12 +57,13 @@ public class Engine implements Receiver {
     }
 
     @Override
-    public void insertClipborad(int position) {
+    public void insertClipboard(int position) {
         buffer.addContent(clipboard.getContent(), position);
     }
 
     @Override
     public void delete(int debut, int fin) {
         buffer.deleteContent(debut, fin);
+        System.out.println(buffer.getContent());
     }
 }
