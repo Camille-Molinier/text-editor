@@ -2,3 +2,6 @@ Diagramme de classes
 diagramme sequence couper
 
 Interface graphique pas obligée, terminal possible (tapez 1 ca, 2 ca, ...)
+
+invoker -> command history
+invoker.undo()

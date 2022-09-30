@@ -1,10 +1,8 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-
-interface Command {
-    - receiver
-    + execute()
+interface GUI {
+    + update()
 }
 
 interface Invoker {
@@ -12,34 +10,50 @@ interface Invoker {
     + executeCommand()
 }
 
-interface Container {
-    - content
-}
-
-interface Receiver {
-    + copy()
-    + paste()
-    + writing()
-    + replace()
-}
-
-class TerminalGUI {
-    + update()
-}
-
-class Engine {
-    + copy()
-    + paste()
-    + writing()
-    + replace()
-}
-
-class Writing {
+interface Command {
     - receiver
     + execute()
 }
 
+interface Receiver {
+    + copy(debut, fin)
+    + paste(position)
+    + insert(char, position)
+    + delete(debut, fin)
+}
+
+interface Clipboard {
+    - content
+    + setContent(string)
+    + getContent()
+}
+
+interface Buffer {
+    - content
+    + addContent(string, position)
+    + deleteContent(debut, fin)
+    + getContent()
+    + getContent(position)
+}
+
+class SimpleGUI {
+    + update()
+}
+
+class Engine {
+    + copy(debut, fin)
+    + paste(position)
+    + insert(char, position)
+    + delete(debut, fin)
+}
+
+
 class Copy {
+    - receiver
+    + execute()
+}
+
+class Cut {
     - receiver
     + execute()
 }
@@ -54,33 +68,61 @@ class Replace {
     + execute()
 }
 
-class Clipboard {}
+class Delete {
+    - receiver
+    + execute()
+}
 
-class Buffer {}
+class Insert {
+    - receiver
+    + execute()
+}
 
-class command #line.dotted
+class SimpleBuffer {
+    - content
+    + addContent(string, position)
+    + deleteContent(debut, fin)
+    + getContent()
+    + getContent(position)
+}
 
-command ..> Invoker : Invoker
-command ..> Receiver : Receiver
-command ..> Command : command
+class SimpleClipboard {
+    - content
+    + setContent(string)
+    + getContent()
+}
+
+class DummyInvoker {
+    + setCommand(command)
+    + executeCommand()
+}
+
+
+GUI --- Buffer
+GUI --"0...*" Invoker
 
 Receiver "1"-"0...*" Command
-Receiver "*"-down-"1" Container
-Receiver "*"--down"1" Container
+Receiver "*"-down-"1" Buffer
+Receiver "*"--down"1" Clipboard
 
-Clipboard -up-|> Container
-Buffer -left|> Container
+SimpleGUI -right|> GUI
 
-
-Engine -|> Receiver
+Engine -right-|> Receiver
 
 Invoker "1"--left"*" Command
 
-Writing -up-|> Command
-Copy --up-|> Command
+
+Copy -up-|> Command
 Paste -up-|> Command
 Replace --up-|> Command
+Delete -up-|> Command
+Cut --up-|> Command
+Insert -up--|> Command
 
-TerminalGUI --|> Invoker
+SimpleBuffer -up-|> Buffer
+SimpleClipboard -up-|> Clipboard
+
+DummyInvoker -left|> Invoker
+
 
 @enduml

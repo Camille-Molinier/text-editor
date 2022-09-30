@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant GUI
+activate GUI
+participant Invoker
+activate Invoker
+participant Insert
+participant Receiver
+activate Receiver
+participant Buffer
+activate Buffer
+
+
+User -> GUI : appui sur le bouton "Insert"
+GUI -> User : demande de  sélection borne de début
+User -> GUI : sélectionne borne début
+GUI -> User : demande séléction borne fin
+User -> GUI : séléction borne fin
+GUI -> User : caractere à inserer
+User -> GUI : appui sur touche caractere
+
+activate Insert
+
+GUI -> Invoker : setCommand(new Insert(debut, fin, char))
+
+GUI -> Invoker : executeCommand()
+
+Invoker -> Insert : execute()
+
+Insert -> Receiver : delete(debut, fin)
+Insert -> Receiver : insert(char, debut)
+
+GUI -> Buffer : getContent()
+
+
+@enduml

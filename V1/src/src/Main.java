@@ -1,8 +1,8 @@
-import Interfaces.Invoker;
-import implementaions.GUI;
+import Interfaces.GUI;
+import implementations.MyGUI;
 
 public class Main {
     public static void main(String[] args) {
-        Invoker app = new GUI();
+        GUI app = MyGUI.getInstance();
     }
 }
