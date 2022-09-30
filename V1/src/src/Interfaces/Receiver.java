@@ -21,6 +21,12 @@ public interface Receiver {
     void insert(String c, int position);
 
     /**
+     * Insert clipboard at specific position
+     * @param position insert position
+     */
+    void insertClipborad(int position);
+
+    /**
      * Delete selected content
      * @param debut start point
      * @param fin end point

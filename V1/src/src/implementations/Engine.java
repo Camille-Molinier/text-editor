@@ -35,6 +35,7 @@ public class Engine implements Receiver {
             if (buffer.getContent().isEmpty()) {
                 copy = "";
             } else {
+                if(stop>=buffer.getContent().length()){stop--;}
                 // add buffer string between start and stop
                 for (int i = start; i <= stop; i++) {
                     copy += buffer.getContent().charAt(i);
@@ -43,7 +44,6 @@ public class Engine implements Receiver {
         }
         // update clipboard
         clipboard.setContent(copy);
-        System.out.println(clipboard.getContent());
     }
 
     @Override
@@ -54,6 +54,11 @@ public class Engine implements Receiver {
     @Override
     public void insert(String c, int position) {
         buffer.addContent(c, position);
+    }
+
+    @Override
+    public void insertClipborad(int position) {
+        buffer.addContent(clipboard.getContent(), position);
     }
 
     @Override

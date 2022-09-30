@@ -19,6 +19,10 @@ public class Cut implements Command {
     public Cut(int begin, int end) {
         start = begin;
         stop = end;
+
+        if(start<0){start=0;}
+        if(stop<0){stop=0;}
+
         receiver = new Engine();
     }
 
@@ -28,5 +32,6 @@ public class Cut implements Command {
     @Override
     public void execute() {
         receiver.copy(start, stop);
+        receiver.delete(start, stop);
     }
 }

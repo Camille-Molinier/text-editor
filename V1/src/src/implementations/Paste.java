@@ -3,25 +3,20 @@ package implementations;
 import Interfaces.Command;
 import Interfaces.Receiver;
 
-public class Copy implements Command {
+public class Paste implements Command {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
     // start position parameter
-    private int start;
-    // stop position parameter
-    private int stop;
+    private int position;
+
     private Receiver receiver;
 
     /****************************************************************************************************/
     /*                                            Constructor                                           */
     /****************************************************************************************************/
-    public Copy(int begin, int end) {
-        start = begin-1;
-        stop = end;
-
-        if(start<0){start=0;}
-        if(stop<0){stop=0;}
+    public Paste(int pos) {
+        position = pos;
 
         receiver = new Engine();
     }
@@ -31,6 +26,6 @@ public class Copy implements Command {
     /****************************************************************************************************/
     @Override
     public void execute() {
-        receiver.copy(start, stop);
+        receiver.insertClipborad(position);
     }
 }

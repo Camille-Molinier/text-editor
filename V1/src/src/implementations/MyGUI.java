@@ -5,6 +5,7 @@ import Interfaces.GUI;
 import Interfaces.Invoker;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,8 +20,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     private static volatile MyGUI instance;
     // text Area
     private JTextArea textArea;
-    // carret position feild
-    private JTextField caretPositionField;
     // copy button
     private JButton copyButton;
     // cut button
@@ -32,19 +31,21 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     // buffer instance
     private Buffer buffer;
     // informative label
-    private JLabel infLabel;
-
+    private  int caretPosition;
     // caret position label
     private JLabel caretPosLabel;
-    private  int caretPosition;
-
+    // carret position feild
+    private JTextField caretPositionField;
     // 2nd caret position label
     private JLabel secondCaretPosLabel;
-
     // 2nd carret position feild
     private JTextField secondCaretPositionField;
     // Second caret position
     private int secondCaretPosition;
+    // clipborad indicator label
+    private JLabel clipLabel;
+    // clipboard content label
+    private JLabel clipContentLabel;
 
 
     /****************************************************************************************************/
@@ -94,50 +95,60 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // add key listener
         this.addKeyListener(this);
 
-        // create informative label
-        infLabel = new JLabel("label");
-        infLabel.setForeground(new Color(150,150,150));
-
         // create caret position label
         caretPosLabel = new JLabel("Caret position");
         caretPosLabel.setForeground(new Color(150,150,150));
 
         // create caret position label
-        secondCaretPosLabel = new JLabel("Caret position");
+        secondCaretPosLabel = new JLabel("2nd caret position");
         secondCaretPosLabel.setForeground(new Color(150,150,150));
+
+        // create clipborad indicator label
+        clipLabel = new JLabel("Clipboard content : ");
+        clipLabel.setForeground(new Color(150,150,150));
+
+        // create clipborad content label
+        clipContentLabel = new JLabel("");
+        clipContentLabel.setForeground(new Color(150,150,150));
 
         // create copy button
         copyButton = new JButton("Copy");
         // add JFrame listener in button
         copyButton.addActionListener(this);
-        // add button in JFrame
-        //this.add(copyButton);
+        copyButton.setBackground(new Color(150,150,150));
+        copyButton.setBorder(new LineBorder(new Color(39,39,39)));
+
 
         // create copy button
         cutButton = new JButton("Cut");
         // add JFrame listener in button
         cutButton.addActionListener(this);
-        // add button in JFrame
-        //this.add(cutButton);
+        cutButton.setBackground(new Color(150,150,150));
+        cutButton.setBorder(new LineBorder(new Color(39,39,39)));
+
 
         // create copy button
         pasteButton = new JButton("Paste");
         // add JFrame listener in button
         pasteButton.addActionListener(this);
-        // add button in JFrame
-        //this.add(pasteButton);
+        pasteButton.setBackground(new Color(150,150,150));
+        pasteButton.setBorder(new LineBorder(new Color(39,39,39)));
 
         // configure text field for caret positioning
         caretPositionField = new JTextField();
+        caretPositionField.setBackground(new Color(39,39,39));
+        caretPositionField.setForeground(new Color(150,150,150));
+        caretPositionField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         // set textfield size
         caretPositionField.setPreferredSize(new Dimension(100, 25));
         // add JFrame listener in textfield
         caretPositionField.addActionListener(this);
-        // add textfield in JFrame
-        //this.add(jTextField);
 
         // configure second text field for caret positioning
         secondCaretPositionField = new JTextField();
+        secondCaretPositionField.setBackground(new Color(39,39,39));
+        secondCaretPositionField.setForeground(new Color(150,150,150));
+        secondCaretPositionField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         // set textfield size
         secondCaretPositionField.setPreferredSize(new Dimension(100, 25));
         // add JFrame listener in textfield
@@ -165,7 +176,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // instantiate scrollPane
         JScrollPane scrollPane = new JScrollPane(textArea);
         // setup dimension
-        scrollPane.setPreferredSize(new Dimension(585, 525));
+        scrollPane.setPreferredSize(new Dimension(585, 550));
         // change background color
         scrollPane.getVerticalScrollBar().setBackground(new Color(44, 44, 44));
         // change scrollbar size
@@ -175,17 +186,24 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // insert scroll pane in JFrame
         //this.add(scrollPane);
 
-        // insert components in layout
-        this.add(caretPosLabel);
-        this.add(caretPositionField);
-        this.add(secondCaretPosLabel);
-        this.add(secondCaretPositionField);
-        this.add(infLabel);
-        this.add(copyButton);
-        this.add(cutButton);
-        this.add(pasteButton);
-        this.add(scrollPane);
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(39,39,39));
+        panel.setPreferredSize(new Dimension(585, 75));
+        panel.setLayout(new GridLayout(3,3));
 
+        // insert components in layout
+        panel.add(caretPosLabel, BorderLayout.WEST);
+        panel.add(caretPositionField, BorderLayout.CENTER);
+        panel.add(copyButton);
+        panel.add(secondCaretPosLabel, BorderLayout.WEST);
+        panel.add(secondCaretPositionField, BorderLayout.CENTER);
+        panel.add(cutButton);
+        panel.add(clipLabel, BorderLayout.SOUTH);
+        panel.add(clipContentLabel, BorderLayout.SOUTH);
+        panel.add(pasteButton);
+
+        this.add(panel);
+        this.add(scrollPane);
         // set canvas as visible
         this.setVisible(true);
     }
@@ -198,16 +216,33 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // if copy button is triggered
         if(e.getSource() == copyButton){
             int start = caretPosition;
-            int stop = parseString2Int(secondCaretPositionField.getText());
+            int stop = secondCaretPosition;
+
+            if(stop<start) {
+                int tmp = start;
+                start = stop;
+                stop = tmp;
+            }
+
             invoker.setCommand(new Copy(start, stop));
         }
         // if cut button is triggered
         if(e.getSource() == cutButton) {
-            //invoker.setCommand();
+            int start = caretPosition;
+            int stop = secondCaretPosition;
+
+            if(stop<start) {
+                int tmp = start;
+                start = stop;
+                stop = tmp;
+            }
+
+            invoker.setCommand(new Cut(start, stop));
+            caretPosition = caretPosition-(stop-start);
         }
         // if paste button is triggered
         if(e.getSource() == pasteButton) {
-
+            invoker.setCommand(new Paste(caretPosition));
         }
         // if first caret textefield triggered
         if(e.getSource()== caretPositionField){
@@ -263,7 +298,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     /****************************************************************************************************/
     @Override
     public void keyPressed(KeyEvent e) {
-        //System.out.println(e.getKeyCode());
         if(isTextChar(e.getKeyCode())){
             invoker.setCommand(new Insert(e.getKeyChar()+"", caretPosition));
             caretPosition ++;
@@ -300,8 +334,13 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     @Override
     public void update() {
         textArea.setText(buffer.getContent());
+        if(caretPosition<0) {caretPosition = 0;}
+        if(caretPosition>buffer.getContent().length()){caretPosition=buffer.getContent().length();}
+        if(secondCaretPosition<0) {secondCaretPosition = 0;}
+        if(secondCaretPosition>buffer.getContent().length()){secondCaretPosition=buffer.getContent().length();}
+
         caretPositionField.setText(caretPosition+"");
         secondCaretPositionField.setText(secondCaretPosition+"");
-        System.out.println("Clipboard content : " + SimpleClipboard.getInstance().getContent());
+        clipContentLabel.setText(SimpleClipboard.getInstance().getContent());
     }
 }
