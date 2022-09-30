@@ -3,7 +3,7 @@ package implementations;
 import Interfaces.Command;
 import Interfaces.Receiver;
 
-public class Copy implements Command {
+public class Cut implements Command {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
@@ -16,19 +16,9 @@ public class Copy implements Command {
     /****************************************************************************************************/
     /*                                            Constructor                                           */
     /****************************************************************************************************/
-    public Copy(int begin, int end) {
-        start = begin-1;
+    public Cut(int begin, int end) {
+        start = begin;
         stop = end;
-
-        if(start<0){start=0;}
-        if(stop<0){stop=0;}
-
-        if(stop<start) {
-            int tmp = start;
-            start = stop;
-            stop = tmp;
-        }
-
         receiver = new Engine();
     }
 

@@ -78,6 +78,11 @@ class Insert {
     + execute()
 }
 
+class DeleteSelection {
+    - receiver
+    + execute()
+}
+
 class SimpleBuffer {
     - content
     + addContent(string, position)
@@ -118,6 +123,7 @@ Replace --up-|> Command
 Delete -up-|> Command
 Cut --up-|> Command
 Insert -up--|> Command
+DeleteSelection -up-|> Command
 
 SimpleBuffer -up-|> Buffer
 SimpleClipboard -up-|> Clipboard

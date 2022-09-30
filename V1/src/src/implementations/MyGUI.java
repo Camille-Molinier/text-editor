@@ -43,6 +43,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
 
     // 2nd carret position feild
     private JTextField secondCaretPositionField;
+    // Second caret position
+    private int secondCaretPosition;
 
 
     /****************************************************************************************************/
@@ -52,6 +54,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         buffer = SimpleBuffer.getInstance();
         invoker = new DummyInvoker();
         caretPosition = 0;
+        secondCaretPosition = 0;
         setupCanvas();
     }
 
@@ -192,30 +195,49 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     /****************************************************************************************************/
     @Override
     public void actionPerformed(ActionEvent e) {
-        // if button is triggered
+        // if copy button is triggered
         if(e.getSource() == copyButton){
             int start = caretPosition;
             int stop = parseString2Int(secondCaretPositionField.getText());
             invoker.setCommand(new Copy(start, stop));
         }
-        // if textefield triggered
+        // if cut button is triggered
+        if(e.getSource() == cutButton) {
+            //invoker.setCommand();
+        }
+        // if paste button is triggered
+        if(e.getSource() == pasteButton) {
+
+        }
+        // if first caret textefield triggered
         if(e.getSource()== caretPositionField){
-            moveCursor(caretPositionField.getText());
+            moveCursor(caretPositionField.getText(), 1);
+        }
+        // if second caret textfield is triggered
+        if(e.getSource()== secondCaretPositionField){
+            moveCursor(secondCaretPositionField.getText(), 2);
         }
         invoker.executeCommand();
         update();
     }
 
-    void moveCursor(String s){
+    void moveCursor(String s, int cursor){
         int content = parseString2Int(s);
         // make sure position is not out of range
         if (content <= buffer.getContent().length()) {
-            caretPosition = content;
+            // if cursor = 1
+            if(cursor==1) {
+                caretPosition = content;
+            } else {
+                secondCaretPosition = content;
+            }
         } else { // Otherwise => set caret position at content end
-            caretPosition = buffer.getContent().length();
+            if(cursor==1) {
+                caretPosition = buffer.getContent().length();
+            } else {
+                secondCaretPosition = buffer.getContent().length();
+            }
         }
-        // update textField display
-        caretPositionField.setText(caretPosition + "");
     }
 
     int parseString2Int(String s) {
@@ -279,5 +301,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     public void update() {
         textArea.setText(buffer.getContent());
         caretPositionField.setText(caretPosition+"");
+        secondCaretPositionField.setText(secondCaretPosition+"");
+        System.out.println("Clipboard content : " + SimpleClipboard.getInstance().getContent());
     }
 }

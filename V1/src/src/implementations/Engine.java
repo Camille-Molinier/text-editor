@@ -29,12 +29,18 @@ public class Engine implements Receiver {
     public void copy(int start, int stop) {
         // create empty string
         String copy = "";
-
-        // add buffer string between start and stop
-        for(int i=start; i<=stop; i++){
-            copy += buffer.getContent().charAt(i);
+        if(start==stop && stop==0) {
+            copy = "";
+        } else {
+            if (buffer.getContent().isEmpty()) {
+                copy = "";
+            } else {
+                // add buffer string between start and stop
+                for (int i = start; i <= stop; i++) {
+                    copy += buffer.getContent().charAt(i);
+                }
+            }
         }
-
         // update clipboard
         clipboard.setContent(copy);
         System.out.println(clipboard.getContent());
