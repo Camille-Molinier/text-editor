@@ -1,3 +1,5 @@
+/out/
+
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -8,7 +10,3 @@
 /dataSources.local.xml
 /V1/TODO
 ../omd-tp2-2223.pdf
-
-
-
-../V1/src/src/implementations/tester.java
