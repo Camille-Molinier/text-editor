@@ -30,7 +30,7 @@ Lors de l'éxécution du programme, l'interface s'ouvre. Elle est composée d'un
 * Les trois boutons pour copier, couper et coller
 
 
-![Interface v1](\dat\V1\interface.jpg)
+![Interface v1](/dat/V1/interface.jpg)
 
 Les labels qui indiquent la position des curseurs sont modifiables, ils régissent la positions
 des curseurs. Si la veleur indiquées sont supérieur à la longueur du texte, la position se 
