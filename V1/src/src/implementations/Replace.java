@@ -37,7 +37,6 @@ public class Replace implements Command {
     @Override
     public void execute() {
         receiver.delete(start, stop-1);
-        System.out.println(start);
         receiver.insertClipboard(start);
     }
 }

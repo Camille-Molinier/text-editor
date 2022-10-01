@@ -60,6 +60,5 @@ public class Engine implements Receiver {
     @Override
     public void delete(int start, int end) {
         buffer.deleteContent(start, end);
-        System.out.println(buffer.getContent());
     }
 }

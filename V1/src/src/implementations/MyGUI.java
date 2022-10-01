@@ -248,8 +248,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         }
         // if paste button is triggered
         if(e.getSource() == pasteButton) {
-            if(secondCaretPosition!=0){
-                System.out.println("Replace");
+            if(caretPosition!=secondCaretPosition){
                 invoker.setCommand(new Replace(caretPosition, secondCaretPosition));
             } else {
                 invoker.setCommand(new Paste(caretPosition));
