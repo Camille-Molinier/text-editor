@@ -4,6 +4,7 @@ public interface Buffer {
     /**
      * Add content at indicate position
      * @param s String to insert
+     * @param position indicate position
      */
     void addContent(String s, int position);
 
@@ -16,15 +17,7 @@ public interface Buffer {
 
     /**
      * Get all buffer's content
-     * @return buffer's content
+     * @return buffer's string
      */
     String getContent();
-
-    /**
-     * Get content between two positions
-     * @param start beginning point
-     * @param stop ending point
-     * @return buffer's content between start and stop
-     */
-    String getContent(int start, int stop);
 }

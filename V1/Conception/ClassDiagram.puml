@@ -6,7 +6,7 @@ interface GUI {
 }
 
 interface Invoker {
-    + setCommand(command)
+    + setCommand(Command c)
     + executeCommand()
 }
 
@@ -16,10 +16,10 @@ interface Command {
 }
 
 interface Receiver {
-    + copy(debut, fin)
-    + paste(position)
-    + insert(char, position)
-    + delete(debut, fin)
+    + copy(int start, int stop)
+    + insert(String c, int position);
+    + insertClipboard(int position)
+    + delete(int start, int stop)
 }
 
 interface Clipboard {
@@ -29,11 +29,10 @@ interface Clipboard {
 }
 
 interface Buffer {
-    - content
-    + addContent(string, position)
-    + deleteContent(debut, fin)
+    - String content
+    + addContent(String s, int position)
+    + deleteContent(int start, int stop)
     + getContent()
-    + getContent(position)
 }
 
 class SimpleGUI {
@@ -41,64 +40,70 @@ class SimpleGUI {
 }
 
 class Engine {
-    + copy(debut, fin)
-    + paste(position)
-    + insert(char, position)
-    + delete(debut, fin)
+      + copy(int start, int stop)
+      + insert(String c, int position);
+      + insertClipboard(int position)
+      + delete(int start, int stop)
 }
 
 
 class Copy {
+    - int start
+    - int stop
     - receiver
     + execute()
 }
 
 class Cut {
+    - int start
+    - int stop
     - receiver
     + execute()
 }
 
 class Paste {
+    - int position
     - receiver
     + execute()
 }
 
 class Replace {
+    - int start
+    - int stop
     - receiver
     + execute()
 }
 
 class Delete {
+    - int position
     - receiver
     + execute()
 }
 
 class Insert {
-    - receiver
-    + execute()
-}
-
-class DeleteSelection {
+    + int position
+    - String insert
     - receiver
     + execute()
 }
 
 class SimpleBuffer {
-    - content
-    + addContent(string, position)
-    + deleteContent(debut, fin)
+    - String content
+    + getInstance()
+    + addContent(String s, int position)
+    + deleteContent(int start, int stop)
     + getContent()
-    + getContent(position)
 }
 
 class SimpleClipboard {
     - content
-    + setContent(string)
+    + getInstance()
+    + setContent(String s)
     + getContent()
 }
 
 class DummyInvoker {
-    + setCommand(command)
+    + setCommand(Command c)
     + executeCommand()
 }
 
@@ -123,7 +128,6 @@ Replace --up-|> Command
 Delete -up-|> Command
 Cut --up-|> Command
 Insert -up--|> Command
-DeleteSelection -up-|> Command
 
 SimpleBuffer -up-|> Buffer
 SimpleClipboard -up-|> Clipboard

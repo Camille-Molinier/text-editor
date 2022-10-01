@@ -9,8 +9,7 @@ public class Insert implements Command {
     /****************************************************************************************************/
     // position parameter
     private int position;
-
-    // insertion centent
+    // insertion content
     private String insert;
     private Receiver receiver;
 

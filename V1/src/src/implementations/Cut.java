@@ -20,6 +20,7 @@ public class Cut implements Command {
         start = begin;
         stop = end;
 
+        // make sure start and stop are positives
         if(start<0){start=0;}
         if(stop<0){stop=0;}
 

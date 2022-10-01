@@ -18,30 +18,32 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     /****************************************************************************************************/
     // instance
     private static volatile MyGUI instance;
+    // invoker
+    private Invoker invoker;
+    // buffer instance
+    private Buffer buffer;
+    // caret position
+    private  int caretPosition;
+    // Second caret position
+    private int secondCaretPosition;
+
+    /*------------------------------ Swing components ------------------------------*/
     // text Area
     private JTextArea textArea;
     // copy button
     private JButton copyButton;
     // cut button
     private JButton cutButton;
-    // replace button
+    // paste button
     private JButton pasteButton;
-    // invoker
-    private Invoker invoker;
-    // buffer instance
-    private Buffer buffer;
-    // informative label
-    private  int caretPosition;
     // caret position label
     private JLabel caretPosLabel;
-    // carret position feild
+    // caret position feild
     private JTextField caretPositionField;
     // 2nd caret position label
     private JLabel secondCaretPosLabel;
     // 2nd carret position feild
     private JTextField secondCaretPositionField;
-    // Second caret position
-    private int secondCaretPosition;
     // clipborad indicator label
     private JLabel clipLabel;
     // clipboard content label
@@ -187,12 +189,13 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         // insert scroll pane in JFrame
         //this.add(scrollPane);
 
+        // Creat panel
         JPanel panel = new JPanel();
         panel.setBackground(new Color(39,39,39));
         panel.setPreferredSize(new Dimension(775, 75));
         panel.setLayout(new GridLayout(3,3));
 
-        // insert components in layout
+        // insert components in panel
         panel.add(caretPosLabel, BorderLayout.WEST);
         panel.add(caretPositionField, BorderLayout.CENTER);
         panel.add(copyButton);
@@ -203,6 +206,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         panel.add(clipContentLabel, BorderLayout.SOUTH);
         panel.add(pasteButton);
 
+        // add panel and scrollPane in frame
         this.add(panel);
         this.add(scrollPane);
         // set canvas as visible
@@ -219,6 +223,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
             int start = caretPosition;
             int stop = secondCaretPosition;
 
+            // make sure start>stop
             if(stop<start) {
                 int tmp = start;
                 start = stop;
@@ -339,14 +344,18 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
     /****************************************************************************************************/
     @Override
     public void update() {
+        // set texterea contet with buffer content
         textArea.setText(buffer.getContent());
+        // assert both carets are positives and not out buffer range
         if(caretPosition<0) {caretPosition = 0;}
         if(caretPosition>buffer.getContent().length()){caretPosition=buffer.getContent().length();}
         if(secondCaretPosition<0) {secondCaretPosition = 0;}
         if(secondCaretPosition>buffer.getContent().length()){secondCaretPosition=buffer.getContent().length();}
 
+        // set carets labels
         caretPositionField.setText(caretPosition+"");
         secondCaretPositionField.setText(secondCaretPosition+"");
+        // set clipborad label
         clipContentLabel.setText(SimpleClipboard.getInstance().getContent());
     }
 }

@@ -6,9 +6,9 @@ public class SimpleClipboard implements Clipboard {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
-    // Instance of SimpleBuffer
+    // instance of SimpleBuffer
     private static volatile SimpleClipboard instance;
-    // Content string
+    // content string
     private String content;
 
     /****************************************************************************************************/

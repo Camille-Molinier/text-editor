@@ -86,29 +86,4 @@ public class SimpleBuffer implements Buffer {
         return content;
     }
 
-    @Override
-    public String getContent(int start, int stop) {
-        // make sure start<stop
-        if (start > stop) {
-            int tmp = stop;
-            stop = start;
-            start = tmp;
-        }
-
-        // make sure stop<= content.length
-        if(content.length()<=stop){stop=content.length()-1;}
-
-        // if start > content.length => return empty string
-        if(content.length()<=start){return "";}
-
-        // create empty string
-        String result = "";
-
-        //insert all char from start to stop
-        for(int i=start; i<=stop; i++){
-            result += content.charAt(i);
-        }
-
-        return result;
-    }
 }

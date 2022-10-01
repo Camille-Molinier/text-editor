@@ -8,12 +8,6 @@ public interface Receiver {
     void copy(int start, int stop);
 
     /**
-     * Paste clipboard content at specific position
-     * @param position : int
-     */
-    void paste(int position);
-
-    /**
      * Insert character at specific position
      * @param c char to inset
      * @param position insert position
@@ -28,8 +22,8 @@ public interface Receiver {
 
     /**
      * Delete selected content
-     * @param debut start point
-     * @param fin end point
+     * @param start : start point
+     * @param stop : end point
      */
-    void delete(int debut, int fin);
+    void delete(int start, int stop);
 }

@@ -8,10 +8,10 @@ public class Engine implements Receiver {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
-    // Clipborad
+    // clipborad
     private Clipboard clipboard;
 
-    // Buffer
+    // buffer
     private Buffer buffer;
 
     /****************************************************************************************************/
@@ -27,11 +27,12 @@ public class Engine implements Receiver {
     /****************************************************************************************************/
     @Override
     public void copy(int start, int stop) {
-        // create empty string
         String copy = "";
+        // if all cursor == 0 => return empty string
         if(start==stop && stop==0) {
             copy = "";
         } else {
+            // if there is nothing in buffer => return empty string
             if (buffer.getContent().isEmpty()) {
                 copy = "";
             } else {
@@ -47,11 +48,6 @@ public class Engine implements Receiver {
     }
 
     @Override
-    public void paste(int position) {
-
-    }
-
-    @Override
     public void insert(String c, int position) {
         buffer.addContent(c, position);
     }
@@ -62,8 +58,8 @@ public class Engine implements Receiver {
     }
 
     @Override
-    public void delete(int debut, int fin) {
-        buffer.deleteContent(debut, fin);
+    public void delete(int start, int end) {
+        buffer.deleteContent(start, end);
         System.out.println(buffer.getContent());
     }
 }

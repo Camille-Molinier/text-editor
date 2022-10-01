@@ -21,6 +21,7 @@ public class Replace implements Command {
         start = begin;
         stop = end;
 
+        // make sure start < stop
         if(start>stop){
             int tmp = stop;
             stop = start;

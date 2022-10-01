@@ -13,7 +13,7 @@ public class DummyInvoker implements Invoker {
     /*                                            Constructor                                           */
     /****************************************************************************************************/
     public DummyInvoker(){
-
+        // Nothing interesting here
     }
 
     /****************************************************************************************************/
@@ -26,14 +26,11 @@ public class DummyInvoker implements Invoker {
 
     @Override
     public void executeCommand() {
+        // make sure there is a command
         if(command!=null){
             command.execute();
         }
+        // reset command
         command = null;
-    }
-
-    @Override
-    public boolean isReady() {
-        return command!=null;
     }
 }

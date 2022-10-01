@@ -20,6 +20,7 @@ public class Copy implements Command {
         start = begin-1;
         stop = end;
 
+        // make sure start and stop are positive
         if(start<0){start=0;}
         if(stop<0){stop=0;}
 

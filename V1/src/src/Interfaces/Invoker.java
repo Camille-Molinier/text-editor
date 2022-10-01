@@ -11,10 +11,4 @@ public interface Invoker {
      * Call execute methode for prepared command
      */
     void  executeCommand();
-
-    /**
-     * Indicate if a command is ready to be execute
-     * @return true if command != null, false otherwise
-     */
-    boolean isReady();
 }
