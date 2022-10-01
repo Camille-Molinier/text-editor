@@ -49,4 +49,3 @@ supression comme un erreur et fera un petit son caractéristique. Celà n'affect
 fonctionalité de supression car elle est interne à l'application.
 
 ## V2
-
