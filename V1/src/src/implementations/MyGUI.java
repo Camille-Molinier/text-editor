@@ -266,7 +266,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         update();
     }
 
-    void moveCursor(String s, int cursor){
+    private void moveCursor(String s, int cursor){
         int content = parseString2Int(s);
         // make sure position is not out of range
         if (content <= buffer.getContent().length()) {
@@ -285,7 +285,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener{
         }
     }
 
-    int parseString2Int(String s) {
+    private int parseString2Int(String s) {
         if(s.isEmpty()){
             return 0;
         }

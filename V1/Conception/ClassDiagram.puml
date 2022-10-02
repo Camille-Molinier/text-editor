@@ -36,6 +36,7 @@ interface Buffer {
 }
 
 class SimpleGUI {
+    + getInstance()
     + update()
 }
 
@@ -108,18 +109,18 @@ class DummyInvoker {
 }
 
 
-GUI --- Buffer
-GUI --"0...*" Invoker
+GUI --- "1"Buffer
+GUI --"1" Invoker
 
-Receiver "1"-"0...*" Command
-Receiver "*"-down-"1" Buffer
-Receiver "*"--down"1" Clipboard
+Receiver "1"- Command
+Receiver -down-"1" Buffer
+Receiver --down"1" Clipboard
 
 SimpleGUI -right|> GUI
 
 Engine -right-|> Receiver
 
-Invoker "1"--left"*" Command
+Invoker "1"--left Command
 
 
 Copy -up-|> Command

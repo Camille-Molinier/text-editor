@@ -12,17 +12,14 @@ activate Invoker
 participant Insert
 participant Receiver
 activate Receiver
+
 participant Buffer
 activate Buffer
-
-
-User -> GUI : appui sur le bouton "Insert"
-GUI -> User : demande de  sélection borne de début
+participant Clipborad
+activate Clipborad
 User -> GUI : sélectionne borne début
-GUI -> User : demande séléction borne fin
 User -> GUI : séléction borne fin
-GUI -> User : caractere à inserer
-User -> GUI : appui sur touche caractere
+User -> GUI : appui sur le bouton "Insert"
 
 activate Insert
 
@@ -33,7 +30,12 @@ GUI -> Invoker : executeCommand()
 Invoker -> Insert : execute()
 
 Insert -> Receiver : delete(debut, fin)
-Insert -> Receiver : insert(char, debut)
+Receiver -> Buffer : delete(debut, fin)
+Insert -> Receiver : insertClipboard(position)
+Receiver -> Clipborad : getContent()
+Clipborad --> Receiver : contenu
+
+Receiver -> Buffer : insert(clipboard, position)
 
 GUI -> Buffer : getContent()
 
