@@ -1,0 +1,139 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface GUI {
+    + update()
+}
+
+interface Invoker {
+    + setCommand(Command c)
+    + executeCommand()
+}
+
+interface Command {
+    - receiver
+    + execute()
+}
+
+interface Receiver {
+    + copy(int start, int stop)
+    + insert(String c, int position);
+    + insertClipboard(int position)
+    + delete(int start, int stop)
+}
+
+interface Clipboard {
+    - content
+    + setContent(string)
+    + getContent()
+}
+
+interface Buffer {
+    - String content
+    + addContent(String s, int position)
+    + deleteContent(int start, int stop)
+    + getContent()
+}
+
+class SimpleGUI {
+    + getInstance()
+    + update()
+}
+
+class Engine {
+      + copy(int start, int stop)
+      + insert(String c, int position);
+      + insertClipboard(int position)
+      + delete(int start, int stop)
+}
+
+
+class Copy {
+    - int start
+    - int stop
+    - receiver
+    + execute()
+}
+
+class Cut {
+    - int start
+    - int stop
+    - receiver
+    + execute()
+}
+
+class Paste {
+    - int position
+    - receiver
+    + execute()
+}
+
+class Replace {
+    - int start
+    - int stop
+    - receiver
+    + execute()
+}
+
+class Delete {
+    - int position
+    - receiver
+    + execute()
+}
+
+class Insert {
+    + int position
+    - String insert
+    - receiver
+    + execute()
+}
+
+class SimpleBuffer {
+    - String content
+    + getInstance()
+    + addContent(String s, int position)
+    + deleteContent(int start, int stop)
+    + getContent()
+}
+
+class SimpleClipboard {
+    - content
+    + getInstance()
+    + setContent(String s)
+    + getContent()
+}
+
+class DummyInvoker {
+    + setCommand(Command c)
+    + executeCommand()
+}
+
+
+GUI --- "1"Buffer
+GUI --"1" Invoker
+
+Receiver "1"- Command
+Receiver -down-"1" Buffer
+Receiver --down"1" Clipboard
+
+SimpleGUI -right|> GUI
+
+Engine -right-|> Receiver
+
+Invoker "1"--left Command
+
+
+Copy -up-|> Command
+Paste -up-|> Command
+Replace --up-|> Command
+Delete -up-|> Command
+Cut --up-|> Command
+Insert -up--|> Command
+
+SimpleBuffer -up-|> Buffer
+SimpleClipboard -up-|> Clipboard
+
+DummyInvoker -left|> Invoker
+
+
+@enduml

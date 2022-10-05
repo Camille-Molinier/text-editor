@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant GUI
+activate GUI
+participant Invoker
+activate Invoker
+participant Insert
+participant Receiver
+activate Receiver
+
+participant Buffer
+activate Buffer
+participant Clipborad
+activate Clipborad
+User -> GUI : sélectionne borne début
+User -> GUI : séléction borne fin
+User -> GUI : appui sur le bouton "Insert"
+
+activate Insert
+
+GUI -> Invoker : setCommand(new Insert(debut, fin, char))
+
+GUI -> Invoker : executeCommand()
+
+Invoker -> Insert : execute()
+
+Insert -> Receiver : delete(debut, fin)
+Receiver -> Buffer : delete(debut, fin)
+Insert -> Receiver : insertClipboard(position)
+Receiver -> Clipborad : getContent()
+Clipborad --> Receiver : contenu
+
+Receiver -> Buffer : insert(clipboard, position)
+
+GUI -> Buffer : getContent()
+
+
+@enduml
