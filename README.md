@@ -6,6 +6,8 @@ du cours outils et méthodes pour le développement.
 configuration de développement : Windows 11 (à jour) + IntelliJ 2022.2.2 + openJDK 18.0.2
 ## 1️⃣V1
 
+---
+
 ### 📁 Descirption des fichiers 
 
 Le dossier V1 de ce projet contient un dossier de conception dans lequel sont rangés tous 
@@ -49,3 +51,5 @@ supression comme un erreur et fera un petit son caractéristique. Celà n'affect
 fonctionalité de supression car elle est interne à l'application.
 
 ## V2
+
+---
