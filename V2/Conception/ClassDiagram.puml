@@ -1,46 +1,73 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-interface GUI {
+interface GUI #ffb480 {
     + update()
 }
 
-interface Invoker {
+interface Invoker #ffb480 {
     + setCommand(Command c)
     + executeCommand()
 }
 
-interface Command {
+interface Command #ffb480 {
     - receiver
     + execute()
 }
 
-interface Receiver {
+interface Receiver #ffb480 {
     + copy(int start, int stop)
     + insert(String c, int position);
     + insertClipboard(int position)
     + delete(int start, int stop)
 }
 
-interface Clipboard {
+interface Clipboard #ffb480 {
     - content
     + setContent(string)
     + getContent()
 }
 
-interface Buffer {
+interface Buffer #ffb480 {
     - String content
     + addContent(String s, int position)
     + deleteContent(int start, int stop)
     + getContent()
 }
 
-class SimpleGUI {
+interface Originator #59adf6 {
+    + String curentState;
+    + void save();
+    + void restore();
+}
+
+interface Memento #59adf6 {
+    - String content
+
+    + Memento(String s, int pos)
+    + String getContent()
+}
+
+interface CareTaker #59adf6 {
+    + void addMemento(Memento)
+    + Memento getMemento()
+}
+
+interface Strategy #42D65B {
+  void configure()
+  void execute()
+}
+
+interface Context #42D65B {
+  getContext();
+}
+
+class SimpleGUI #ff6961;line.bold:C80900 {
     + getInstance()
     + update()
 }
 
-class Engine {
+class Engine #ff6961 {
       + copy(int start, int stop)
       + insert(String c, int position);
       + insertClipboard(int position)
@@ -48,47 +75,67 @@ class Engine {
 }
 
 
-class Copy {
+class Copy #ff6961 {
     - int start
     - int stop
     - receiver
     + execute()
 }
 
-class Cut {
+class Cut #ff6961 {
     - int start
     - int stop
     - receiver
     + execute()
 }
 
-class Paste {
+class Paste #ff6961 {
     - int position
     - receiver
     + execute()
 }
 
-class Replace {
+class Replace #ff6961 {
     - int start
     - int stop
     - receiver
     + execute()
 }
 
-class Delete {
+class Delete #ff6961 {
     - int position
     - receiver
     + execute()
 }
 
-class Insert {
+class Insert #ff6961 {
     + int position
     - String insert
     - receiver
     + execute()
 }
 
-class SimpleBuffer {
+class Undo #ff6961 {
+    - receiver
+    + execute()
+}
+
+class Redo #ff6961 {
+    - receiver
+    + execute()
+}
+
+class Script #ff6961 {
+    - receiver
+    + execute()
+}
+
+class Load #ff6961 {
+    - receiver
+    + execute()
+}
+
+class SimpleBuffer #ff6961;line.bold:C80900 {
     - String content
     + getInstance()
     + addContent(String s, int position)
@@ -96,18 +143,44 @@ class SimpleBuffer {
     + getContent()
 }
 
-class SimpleClipboard {
+class SimpleClipboard #ff6961;line.bold:C80900 {
     - content
     + getInstance()
     + setContent(String s)
     + getContent()
 }
 
-class DummyInvoker {
+class DummyInvoker #ff6961 {
     + setCommand(Command c)
     + executeCommand()
 }
 
+class MyOriginator #176EBB {
+    + String curentState;
+    + void save();
+    + void restore();
+}
+
+class Snapshot #176EBB {
+    - String content
+
+    + Memento(String s, int pos)
+    + String getContent()
+}
+
+class StackCareTaker #1677CB {
+    + void addMemento(Memento)
+    + Memento getMemento()
+}
+
+class ScriptStrategy #09B327 {
+    void configure()
+    void execute()
+}
+
+class myContext #09B327 {
+  getContext();
+}
 
 GUI --- "1"Buffer
 GUI --"1" Invoker
@@ -122,6 +195,23 @@ Engine -right-|> Receiver
 
 Invoker "1"--left Command
 
+Copy -- Originator
+Paste -- Originator
+Replace -- Originator
+Delete -- Originator
+Cut -- Originator
+Insert -- Originator
+Undo -- Originator
+Redo -- Originator
+
+Script --- Strategy
+Load --- Strategy
+
+Strategy -- Context
+
+Context - CareTaker
+CareTaker -up- Originator
+Memento -- CareTaker
 
 Copy -up-|> Command
 Paste -up-|> Command
@@ -129,11 +219,22 @@ Replace --up-|> Command
 Delete -up-|> Command
 Cut --up-|> Command
 Insert -up--|> Command
+Undo -up--|> Command
+Redo -up--|> Command
+Script -up-|> Command
+Load -up--|> Command
 
 SimpleBuffer -up-|> Buffer
 SimpleClipboard -up-|> Clipboard
 
 DummyInvoker -left|> Invoker
+
+MyOriginator -left|> Originator
+StackCareTaker -left|> CareTaker
+Snapshot -down|> Memento
+
+ScriptStrategy -left-|> Strategy
+myContext -|> Context
 
 
 @enduml
