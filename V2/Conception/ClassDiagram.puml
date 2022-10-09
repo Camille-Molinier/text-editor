@@ -1,6 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
-
+'42D65B
+'09B327
 interface GUI #ffb480 {
     + update()
 }
@@ -51,15 +52,7 @@ interface Memento #59adf6 {
 interface CareTaker #59adf6 {
     + void addMemento(Memento)
     + Memento getMemento()
-}
-
-interface Strategy #42D65B {
-  void configure()
-  void execute()
-}
-
-interface Context #42D65B {
-  getContext();
+    + List<Memento> getList()
 }
 
 class SimpleGUI #ff6961;line.bold:C80900 {
@@ -125,7 +118,7 @@ class Redo #ff6961 {
     + execute()
 }
 
-class Script #ff6961 {
+class Script #ff6961;line.bold:C80900 {
     - receiver
     + execute()
 }
@@ -168,18 +161,10 @@ class Snapshot #176EBB {
     + String getContent()
 }
 
-class StackCareTaker #1677CB {
+class ListCareTaker #1677CB;line.bold:002D55 {
     + void addMemento(Memento)
     + Memento getMemento()
-}
-
-class ScriptStrategy #09B327 {
-    void configure()
-    void execute()
-}
-
-class myContext #09B327 {
-  getContext();
+    + List<Memento> getList()
 }
 
 GUI --- "1"Buffer
@@ -203,13 +188,9 @@ Cut -- Originator
 Insert -- Originator
 Undo -- Originator
 Redo -- Originator
+Script -- Originator
+Load -- Originator
 
-Script --- Strategy
-Load --- Strategy
-
-Strategy -- Context
-
-Context - CareTaker
 CareTaker -up- Originator
 Memento -- CareTaker
 
@@ -230,11 +211,6 @@ SimpleClipboard -up-|> Clipboard
 DummyInvoker -left|> Invoker
 
 MyOriginator -left|> Originator
-StackCareTaker -left|> CareTaker
+ListCareTaker -|> CareTaker
 Snapshot -down|> Memento
-
-ScriptStrategy -left-|> Strategy
-myContext -|> Context
-
-
 @enduml

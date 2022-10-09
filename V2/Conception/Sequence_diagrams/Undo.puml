@@ -5,39 +5,44 @@ autonumber
 
 actor User
 
-participant GUI
-activate GUI
-participant Invoker
-activate Invoker
-participant Insert
-participant Receiver
-activate Receiver
+participant GUI #ff6961
+participant Invoker #ff6961
+participant Undo #ff6961
+participant Originator #1677CB
+participant Memento #1677CB
+participant CareTaker #1677CB
+participant Reciever #ff6961
+participant Buffer #ff6961
 
-participant Buffer
-activate Buffer
-participant Clipborad
-activate Clipborad
-User -> GUI : sélectionne borne début
-User -> GUI : séléction borne fin
-User -> GUI : appui sur le bouton "Insert"
+activate CareTaker #1677CB
+activate Invoker #ff6961
+activate GUI #ff6961
+activate Buffer #ff6961
+activate Memento #1677CB
 
-activate Insert
+User -> GUI : appui sur le bouton "undo"
 
-GUI -> Invoker : setCommand(new Insert(debut, fin, char))
-
+activate Undo #ff6961
+activate Reciever #ff6961
+GUI -> Invoker : setCommand(new Undo())
 GUI -> Invoker : executeCommand()
 
-Invoker -> Insert : execute()
+activate Originator #1677CB
+Invoker -> Undo : execute()
 
-Insert -> Receiver : delete(debut, fin)
-Receiver -> Buffer : delete(debut, fin)
-Insert -> Receiver : insertClipboard(position)
-Receiver -> Clipborad : getContent()
-Clipborad --> Receiver : contenu
+Undo -> Originator : restore()
 
-Receiver -> Buffer : insert(clipboard, position)
+Originator -> CareTaker : getMemento()
+CareTaker --> Originator : memento
+Originator -> Memento : getContent()
+Memento --> Originator : String content
+Originator --> Undo : String content
+
+Undo -> Reciever : delete()
+Reciever -> Buffer : deleteContent()
+
+Undo -> Reciever : insert(0, content)
+Reciever -> Buffer : addContent(0, content)
 
 GUI -> Buffer : getContent()
-
-
 @enduml
