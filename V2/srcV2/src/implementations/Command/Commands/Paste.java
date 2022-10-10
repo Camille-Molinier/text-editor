@@ -1,7 +1,11 @@
-package implementations;
+package implementations.Command.Commands;
 
 import Interfaces.Command;
+import Interfaces.Originator;
 import Interfaces.Receiver;
+import implementations.Command.Engine;
+import implementations.Command.SimpleBuffer;
+import implementations.Memento.MyOriginator;
 
 public class Paste implements Command {
     /****************************************************************************************************/
@@ -9,8 +13,8 @@ public class Paste implements Command {
     /****************************************************************************************************/
     // start position parameter
     private int position;
-
     private Receiver receiver;
+    private Originator originator;
 
     /****************************************************************************************************/
     /*                                            Constructor                                           */
@@ -19,6 +23,7 @@ public class Paste implements Command {
         position = pos;
 
         receiver = new Engine();
+        originator = new MyOriginator();
     }
 
     /****************************************************************************************************/
@@ -27,5 +32,6 @@ public class Paste implements Command {
     @Override
     public void execute() {
         receiver.insertClipboard(position);
+        originator.save(SimpleBuffer.getInstance().getContent());
     }
 }

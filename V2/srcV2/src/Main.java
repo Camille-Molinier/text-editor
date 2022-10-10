@@ -1,5 +1,5 @@
 import Interfaces.GUI;
-import implementations.MyGUI;
+import implementations.Command.MyGUI;
 
 public class Main {
     public static void main(String[] args) {

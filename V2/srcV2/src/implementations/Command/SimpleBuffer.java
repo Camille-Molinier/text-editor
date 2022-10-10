@@ -1,4 +1,4 @@
-package implementations;
+package implementations.Command;
 
 import Interfaces.Buffer;
 

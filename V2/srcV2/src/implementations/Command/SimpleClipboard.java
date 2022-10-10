@@ -1,42 +1,38 @@
-package implementations;
+package implementations.Command;
 
-import Interfaces.Command;
-import Interfaces.Receiver;
+import Interfaces.Clipboard;
 
-public class Replace implements Command {
+public class SimpleClipboard implements Clipboard {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
-    // start position parameter
-    private int start;
-    // End position parameter
-    private int stop;
-
-    private Receiver receiver;
+    // instance of SimpleBuffer
+    private static volatile SimpleClipboard instance;
+    // content string
+    private String content;
 
     /****************************************************************************************************/
     /*                                            Constructor                                           */
     /****************************************************************************************************/
-    public Replace(int begin, int end) {
-        start = begin;
-        stop = end;
+    private SimpleClipboard(){
+        content = "";
+    }
 
-        // make sure start < stop
-        if(start>stop){
-            int tmp = stop;
-            stop = start;
-            start = tmp;
-        }
-
-        receiver = new Engine();
+    public static SimpleClipboard getInstance(){
+        if(instance==null){ instance = new SimpleClipboard();}
+        return instance;
     }
 
     /****************************************************************************************************/
     /*                                              Methods                                             */
     /****************************************************************************************************/
     @Override
-    public void execute() {
-        receiver.delete(start, stop-1);
-        receiver.insertClipboard(start);
+    public String getContent() {
+        return content;
+    }
+
+    @Override
+    public void setContent(String s) {
+        content = s;
     }
 }

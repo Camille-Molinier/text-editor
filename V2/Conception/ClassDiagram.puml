@@ -39,13 +39,12 @@ interface Buffer #ffb480 {
 interface Originator #59adf6 {
     + String curentState;
     + void save();
-    + void restore();
+    + String restore();
 }
 
 interface Memento #59adf6 {
     - String content
 
-    + Memento(String s, int pos)
     + String getContent()
 }
 
@@ -151,17 +150,16 @@ class DummyInvoker #ff6961 {
 class MyOriginator #176EBB {
     + String curentState;
     + void save();
-    + void restore();
+    + String restore();
 }
 
 class Snapshot #176EBB {
     - String content
 
-    + Memento(String s, int pos)
     + String getContent()
 }
 
-class ListCareTaker #1677CB;line.bold:002D55 {
+class StackCareTaker #1677CB;line.bold:002D55 {
     + void addMemento(Memento)
     + Memento getMemento()
     + List<Memento> getList()
@@ -192,7 +190,9 @@ Script -- Originator
 Load -- Originator
 
 CareTaker -up- Originator
-Memento -- CareTaker
+Memento -left- CareTaker
+
+Script - CareTaker
 
 Copy -up-|> Command
 Paste -up-|> Command
@@ -210,7 +210,7 @@ SimpleClipboard -up-|> Clipboard
 
 DummyInvoker -left|> Invoker
 
-MyOriginator -left|> Originator
-ListCareTaker -|> CareTaker
-Snapshot -down|> Memento
+MyOriginator -|> Originator
+StackCareTaker -|> CareTaker
+Snapshot -left|> Memento
 @enduml

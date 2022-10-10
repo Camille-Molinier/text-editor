@@ -1,7 +1,11 @@
-package implementations;
+package implementations.Command.Commands;
 
 import Interfaces.Command;
+import Interfaces.Originator;
 import Interfaces.Receiver;
+import implementations.Command.Engine;
+import implementations.Command.SimpleBuffer;
+import implementations.Memento.MyOriginator;
 
 public class Cut implements Command {
     /****************************************************************************************************/
@@ -12,6 +16,7 @@ public class Cut implements Command {
     // stop position parameter
     private int stop;
     private Receiver receiver;
+    private Originator originator;
 
     /****************************************************************************************************/
     /*                                            Constructor                                           */
@@ -25,6 +30,7 @@ public class Cut implements Command {
         if(stop<0){stop=0;}
 
         receiver = new Engine();
+        originator = new MyOriginator();
     }
 
     /****************************************************************************************************/
@@ -34,5 +40,6 @@ public class Cut implements Command {
     public void execute() {
         receiver.copy(start, stop);
         receiver.delete(start, stop);
+        originator.save(SimpleBuffer.getInstance().getContent());
     }
 }

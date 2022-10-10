@@ -1,38 +1,45 @@
-package implementations;
+package implementations.Command.Commands;
 
-import Interfaces.Clipboard;
+import Interfaces.Buffer;
+import Interfaces.Command;
+import Interfaces.Originator;
+import Interfaces.Receiver;
+import implementations.Command.Engine;
+import implementations.Command.SimpleBuffer;
+import implementations.Memento.MyOriginator;
 
-public class SimpleClipboard implements Clipboard {
+public class Copy implements Command {
     /****************************************************************************************************/
     /*                                            Attributes                                            */
     /****************************************************************************************************/
-    // instance of SimpleBuffer
-    private static volatile SimpleClipboard instance;
-    // content string
-    private String content;
+    // start position parameter
+    private int start;
+    // stop position parameter
+    private int stop;
+    private Receiver receiver;
+    private Originator originator;
 
     /****************************************************************************************************/
     /*                                            Constructor                                           */
     /****************************************************************************************************/
-    private SimpleClipboard(){
-        content = "";
-    }
+    public Copy(int begin, int end) {
+        start = begin-1;
+        stop = end;
 
-    public static SimpleClipboard getInstance(){
-        if(instance==null){ instance = new SimpleClipboard();}
-        return instance;
+        // make sure start and stop are positive
+        if(start<0){start=0;}
+        if(stop<0){stop=0;}
+
+        receiver = new Engine();
+        originator = new MyOriginator();
     }
 
     /****************************************************************************************************/
     /*                                              Methods                                             */
     /****************************************************************************************************/
     @Override
-    public String getContent() {
-        return content;
-    }
-
-    @Override
-    public void setContent(String s) {
-        content = s;
+    public void execute() {
+        receiver.copy(start, stop);
+        originator.save(SimpleBuffer.getInstance().getContent());
     }
 }
