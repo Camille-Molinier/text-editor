@@ -3,6 +3,7 @@ package implementations.Memento;
 import Interfaces.CareTaker;
 import Interfaces.Memento;
 import Interfaces.Originator;
+import java.util.List;
 
 public class MyOriginator implements Originator {
 
@@ -10,7 +11,7 @@ public class MyOriginator implements Originator {
   /*                                            Attributes                                            */
   /****************************************************************************************************/
   // Curent state
-  private String currentState;
+  private Memento currentState;
   // CareTaker
   private CareTaker careTaker;
 
@@ -26,25 +27,24 @@ public class MyOriginator implements Originator {
   /*                                              Methods                                             */
   /****************************************************************************************************/
   @Override
-  public void save(String content) {
-    Memento memento = new Snapshot(content);
+  public void save(String content, List<String> command) {
+    Memento memento = new Snapshot(content, command);
     careTaker.addMemento(memento);
-    currentState = content;
+    currentState = memento;
   }
 
   @Override
-  public String restore() {
-    Memento currentMemento = careTaker.getMemento();
-    if(currentMemento==null){
-      return "";
+  public Memento restore() {
+    currentState = careTaker.getMemento();
+    if(currentState==null){
+      return null;
     }
-    currentState = currentMemento.getContent();
     return currentState;
   }
 
   @Override
-  public String respawn() {
-    currentState = careTaker.renew().getContent();
+  public Memento respawn() {
+    currentState = careTaker.renew();
     return currentState;
   }
 }

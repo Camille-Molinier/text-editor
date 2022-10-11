@@ -81,7 +81,7 @@ public class Script implements Command {
       Writer writer = new FileWriter(output);
 
       for(Memento memento : scriptList) {
-        writer.write(memento.getContent()+"\n");
+        writer.write(memento.getCommand().toString()+"\n");
       }
       writer.close();
     }

@@ -6,6 +6,8 @@ import Interfaces.Receiver;
 import implementations.Command.Engine;
 import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Delete implements Command {
     /****************************************************************************************************/
@@ -30,6 +32,7 @@ public class Delete implements Command {
     @Override
     public void execute() {
         receiver.delete(position-1, position-1);
-        originator.save(SimpleBuffer.getInstance().getContent());
+        originator.save(SimpleBuffer.getInstance().getContent(),
+            new ArrayList<String>(Arrays.asList("Delete", position+"")));
     }
 }

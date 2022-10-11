@@ -248,6 +248,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     textArea.setMargin(new Insets(10, 10, 10, 10));
     // add JFrame listener in textarea
     textArea.addKeyListener(this);
+    //TODO : add caretlistener
 
     // instantiate scrollPane
     JScrollPane scrollPane = new JScrollPane(textArea);
@@ -310,7 +311,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
   /****************************************************************************************************/
   /*                                   ActionListener implementation                                  */
-
   /****************************************************************************************************/
   @Override
   public void actionPerformed(ActionEvent e) {

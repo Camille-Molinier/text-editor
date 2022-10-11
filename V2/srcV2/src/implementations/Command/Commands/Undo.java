@@ -1,6 +1,7 @@
 package implementations.Command.Commands;
 
 import Interfaces.Command;
+import Interfaces.Memento;
 import Interfaces.Originator;
 import Interfaces.Receiver;
 import implementations.Command.Engine;
@@ -26,9 +27,8 @@ public class Undo implements Command {
   /****************************************************************************************************/
   @Override
   public void execute() {
-    String restore = originator.restore();
-    System.out.println(restore);
+    Memento restore = originator.restore();
     receiver.delete(0, SimpleBuffer.getInstance().getContent().length()-1);
-    receiver.insert(restore, 0);
+    receiver.insert(restore.getContent(), 0);
   }
 }

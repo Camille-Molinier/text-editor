@@ -1,5 +1,7 @@
 package Interfaces;
 
+import java.util.List;
+
 public interface Memento {
 
   /**
@@ -7,6 +9,12 @@ public interface Memento {
    * @return memento content
    */
   String getContent();
+
+  /**
+   * Retunr stored command
+   * @return command : Command
+   */
+  List<String> getCommand();
 
   /**
    * tell if two mementos are identic

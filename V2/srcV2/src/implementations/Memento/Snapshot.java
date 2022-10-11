@@ -1,6 +1,7 @@
 package implementations.Memento;
 
 import Interfaces.Memento;
+import java.util.List;
 
 public class Snapshot implements Memento {
   /****************************************************************************************************/
@@ -8,12 +9,14 @@ public class Snapshot implements Memento {
   /****************************************************************************************************/
   // Saved content
   private  String content;
+  private List<String> command;
 
   /****************************************************************************************************/
   /*                                            Constructor                                           */
   /****************************************************************************************************/
-  public Snapshot(String cont){
+  public Snapshot(String cont, List<String> comm){
     content = cont;
+    command = comm;
   }
 
   /****************************************************************************************************/
@@ -25,7 +28,12 @@ public class Snapshot implements Memento {
   }
 
   @Override
+  public List<String> getCommand() {
+    return command;
+  }
+
+  @Override
   public boolean equals(Memento memento) {
-    return content==memento.getContent();
+    return content==memento.getContent() && command.equals(memento.getCommand());
   }
 }
