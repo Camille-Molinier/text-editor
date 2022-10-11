@@ -8,6 +8,7 @@ import implementations.Command.Commands.Copy;
 import implementations.Command.Commands.Cut;
 import implementations.Command.Commands.Delete;
 import implementations.Command.Commands.Insert;
+import implementations.Command.Commands.Load;
 import implementations.Command.Commands.Paste;
 import implementations.Command.Commands.Redo;
 import implementations.Command.Commands.Replace;
@@ -366,7 +367,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     }
     // if script button is triggered
     if (e.getSource() == executeScript) {
-      //TODO : load script
+      invoker.setCommand(new Load(SimpleBuffer.getInstance().getContent(), caretPosition,
+          String.valueOf(scriptSelector.getSelectedItem())));
     }
     // if first caret textefield triggered
     if (e.getSource() == caretPositionField) {
@@ -468,6 +470,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   public void update() {
     // set texterea contet with buffer content
     textArea.setText(buffer.getContent());
+    setScriptList();
     // assert both carets are positives and not out buffer range
     if (caretPosition < 0) {
       caretPosition = 0;

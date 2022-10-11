@@ -29,7 +29,7 @@ public class Delete implements Command {
     /****************************************************************************************************/
     @Override
     public void execute() {
-        receiver.delete(position-1, position);
+        receiver.delete(position-1, position-1);
         originator.save(SimpleBuffer.getInstance().getContent());
     }
 }
