@@ -3,14 +3,17 @@ package Interfaces;
 import java.util.List;
 
 public interface CareTaker {
-    /**
+
+  /**
    * Add memento in storage
+   *
    * @param memento : Memento
    */
   void addMemento(Memento memento);
 
   /**
    * Return current memento
+   *
    * @return top : Memento
    * @warning : use pop()
    */
@@ -18,6 +21,7 @@ public interface CareTaker {
 
   /**
    * Return current memento
+   *
    * @return top : Memento
    * @warning : use peek()
    */
@@ -25,6 +29,7 @@ public interface CareTaker {
 
   /**
    * Get list of memento
+   *
    * @param memento : start point
    * @return sublist starting from memento
    */
@@ -32,6 +37,7 @@ public interface CareTaker {
 
   /**
    * Renew last undone state
+   *
    * @return memento : old memento
    */
   Memento renew();

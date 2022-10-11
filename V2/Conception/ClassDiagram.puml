@@ -200,10 +200,10 @@ Replace --up-|> Command
 Delete -up-|> Command
 Cut --up-|> Command
 Insert -up--|> Command
-Undo -up--|> Command
+Undo -up-|> Command
 Redo -up--|> Command
 Script -up-|> Command
-Load -up--|> Command
+Load -up-|> Command
 
 SimpleBuffer -up-|> Buffer
 SimpleClipboard -up-|> Clipboard

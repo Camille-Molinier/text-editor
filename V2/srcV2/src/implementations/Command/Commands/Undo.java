@@ -28,7 +28,7 @@ public class Undo implements Command {
   @Override
   public void execute() {
     Memento restore = originator.restore();
-    receiver.delete(0, SimpleBuffer.getInstance().getContent().length()-1);
+    receiver.delete(0, SimpleBuffer.getInstance().getContent().length() - 1);
     receiver.insert(restore.getContent(), 0);
   }
 }

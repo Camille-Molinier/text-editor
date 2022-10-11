@@ -11,12 +11,14 @@ public interface Originator {
 
   /**
    * Restore previous tate
+   *
    * @return new current state
    */
   Memento restore();
 
   /**
    * Restore from old commands
+   *
    * @return new current state
    */
   Memento respawn();

@@ -7,14 +7,15 @@ public class Snapshot implements Memento {
   /****************************************************************************************************/
   /*                                            Attributes                                            */
   /****************************************************************************************************/
-  // Saved content
-  private  String content;
+  // saved content
+  private String content;
+  // saved command
   private List<String> command;
 
   /****************************************************************************************************/
   /*                                            Constructor                                           */
   /****************************************************************************************************/
-  public Snapshot(String cont, List<String> comm){
+  public Snapshot(String cont, List<String> comm) {
     content = cont;
     command = comm;
   }
@@ -34,6 +35,6 @@ public class Snapshot implements Memento {
 
   @Override
   public boolean equals(Memento memento) {
-    return content==memento.getContent() && command.equals(memento.getCommand());
+    return content == memento.getContent() && command.equals(memento.getCommand());
   }
 }

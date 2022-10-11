@@ -10,29 +10,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Delete implements Command {
-    /****************************************************************************************************/
-    /*                                            Attributes                                            */
-    /****************************************************************************************************/
-    // position parameter
-    private int position;
-    private Receiver receiver;
-    private Originator originator;
+  /****************************************************************************************************/
+  /*                                            Attributes                                            */
+  /****************************************************************************************************/
+  // position parameter
+  private int position;
+  private Receiver receiver;
+  private Originator originator;
 
-    /****************************************************************************************************/
-    /*                                            Constructor                                           */
-    /****************************************************************************************************/
-    public Delete(int pos) {
-        position = pos;
-        receiver = new Engine();
-        originator = new MyOriginator();
-    }
-    /****************************************************************************************************/
-    /*                                              Methods                                             */
-    /****************************************************************************************************/
-    @Override
-    public void execute() {
-        receiver.delete(position-1, position-1);
-        originator.save(SimpleBuffer.getInstance().getContent(),
-            new ArrayList<String>(Arrays.asList("Delete", position+"")));
-    }
+  /****************************************************************************************************/
+  /*                                            Constructor                                           */
+  /****************************************************************************************************/
+  public Delete(int pos) {
+    position = pos;
+    receiver = new Engine();
+    originator = new MyOriginator();
+  }
+
+  /****************************************************************************************************/
+  /*                                              Methods                                             */
+  /****************************************************************************************************/
+  @Override
+  public void execute() {
+    receiver.delete(position - 1, position - 1);
+    originator.save(SimpleBuffer.getInstance().getContent(),
+        new ArrayList<String>(Arrays.asList("Delete", position + "")));
+  }
 }

@@ -10,31 +10,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Paste implements Command {
-    /****************************************************************************************************/
-    /*                                            Attributes                                            */
-    /****************************************************************************************************/
-    // start position parameter
-    private int position;
-    private Receiver receiver;
-    private Originator originator;
+  /****************************************************************************************************/
+  /*                                            Attributes                                            */
+  /****************************************************************************************************/
+  // start position parameter
+  private int position;
+  private Receiver receiver;
+  private Originator originator;
 
-    /****************************************************************************************************/
-    /*                                            Constructor                                           */
-    /****************************************************************************************************/
-    public Paste(int pos) {
-        position = pos;
+  /****************************************************************************************************/
+  /*                                            Constructor                                           */
+  /****************************************************************************************************/
+  public Paste(int pos) {
+    position = pos;
 
-        receiver = new Engine();
-        originator = new MyOriginator();
-    }
+    receiver = new Engine();
+    originator = new MyOriginator();
+  }
 
-    /****************************************************************************************************/
-    /*                                              Methods                                             */
-    /****************************************************************************************************/
-    @Override
-    public void execute() {
-        receiver.insertClipboard(position);
-        originator.save(SimpleBuffer.getInstance().getContent(),
-            new ArrayList<String>(Arrays.asList("Paste", position+"")));
-    }
+  /****************************************************************************************************/
+  /*                                              Methods                                             */
+  /****************************************************************************************************/
+  @Override
+  public void execute() {
+    receiver.insertClipboard(position);
+    originator.save(SimpleBuffer.getInstance().getContent(),
+        new ArrayList<String>(Arrays.asList("Paste", position + "")));
+  }
 }

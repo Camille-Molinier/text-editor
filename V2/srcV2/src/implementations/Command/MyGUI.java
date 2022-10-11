@@ -15,9 +15,6 @@ import implementations.Command.Commands.Replace;
 import implementations.Command.Commands.Script;
 import implementations.Command.Commands.Undo;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -70,9 +67,9 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   private JLabel clipLabel;
   // clipboard content label
   private JLabel clipContentLabel;
-  // Script combo box
+  // script combo box
   private JComboBox scriptSelector;
-  // Script naming field
+  // script naming field
   private JTextField scriptNaming;
   // script naming label
   private JLabel namingLabel;
@@ -90,9 +87,9 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   }
 
   /**
-   * Return GUI singleton instance
+   * Get instance from MyGUI singleton
    *
-   * @return
+   * @return static volatile MyGUI singleton instance
    */
   public static MyGUI getInstance() {
     if (instance == null) {
@@ -234,8 +231,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     textArea = new JTextArea();
     // make text area not usable
     textArea.setEditable(false);
-    // enable cursor visibility
-    textArea.getCaret().setVisible(true);
     // disable autoscroll
     textArea.setAutoscrolls(false);
     // auto newline
@@ -325,9 +320,9 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
         start = stop;
         stop = tmp;
       }
-
       invoker.setCommand(new Copy(start, stop));
     }
+
     // if cut button is triggered
     if (e.getSource() == cutButton) {
       int start = caretPosition;
@@ -341,7 +336,9 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
       invoker.setCommand(new Cut(start, stop));
       caretPosition = caretPosition - (stop - start);
+      secondCaretPosition = caretPosition;
     }
+
     // if paste button is triggered
     if (e.getSource() == pasteButton) {
       if (caretPosition != secondCaretPosition) {
@@ -350,34 +347,45 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
         invoker.setCommand(new Paste(caretPosition));
       }
     }
+
     // if undo button is triggered
     if (e.getSource() == undoButton) {
       invoker.setCommand(new Undo());
     }
+
     // if redo button is triggered
     if (e.getSource() == redoButton) {
       invoker.setCommand(new Redo());
     }
+
     // if script button is triggered
     if (e.getSource() == scriptButton) {
-      if(scriptButton.getText()=="Script"){scriptButton.setText("Save");}
-      else {scriptButton.setText("Script");}
+      if (scriptButton.getText() == "Script") {
+        scriptButton.setText("Save");
+      } else {
+        scriptButton.setText("Script");
+      }
       invoker.setCommand(Script.getInstance(scriptNaming.getText()));
       setScriptList();
     }
-    // if script button is triggered
+
+    // if load button is triggered
     if (e.getSource() == executeScript) {
       invoker.setCommand(new Load(SimpleBuffer.getInstance().getContent(), caretPosition,
           String.valueOf(scriptSelector.getSelectedItem())));
     }
+
     // if first caret textefield triggered
     if (e.getSource() == caretPositionField) {
       moveCursor(caretPositionField.getText(), 1);
     }
+
     // if second caret textfield is triggered
     if (e.getSource() == secondCaretPositionField) {
       moveCursor(secondCaretPositionField.getText(), 2);
     }
+
+    // execute set command
     invoker.executeCommand();
     update();
   }
@@ -413,6 +421,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
           || s.charAt(i) == '9')) {
         caretPosition = 0;
         caretPositionField.setText(caretPosition + "");
+        secondCaretPosition = 0;
+        secondCaretPositionField.setText(secondCaretPosition + "");
         error = true;
         return buffer.getContent().length();
       }
@@ -423,19 +433,41 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
   /****************************************************************************************************/
   /*                                    KeyListener implementation                                    */
-
   /****************************************************************************************************/
   @Override
   public void keyPressed(KeyEvent e) {
+    // if key is a text char
     if (isTextChar(e.getKeyCode())) {
+      // insert char
       invoker.setCommand(new Insert(e.getKeyChar() + "", caretPosition));
       caretPosition++;
-    } else if (e.getKeyCode() == 8) {
+      secondCaretPosition++;
+    }
+    // if key is delete key
+    if (e.getKeyCode() == 8) {
       if (caretPosition > 0) {
+        // delete content at caret position
         invoker.setCommand(new Delete(caretPosition));
+        caretPosition--;
+        secondCaretPosition--;
+      }
+    }
+    // if key is right arrow
+    if (e.getKeyCode() == 39) {
+      // assert caret position is not at max position
+      if (caretPosition < buffer.getContent().length()) {
+        caretPosition++;
+      }
+    }
+    // if key is left arrow
+    if (e.getKeyCode() == 37) {
+      // assert caret position is not at min position
+      if (caretPosition > 0) {
         caretPosition--;
       }
     }
+
+    // execute command
     invoker.executeCommand();
     update();
   }
@@ -459,12 +491,11 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     return (65 <= code && 95 >= code) || (48 <= code && 57 >= code) || (code == 522) || (code == 61)
         || (code == 515) ||
         (code == 151) || (code == 0) || (code == 517) || (code == 513) || (code == 59) || (code
-        == 44) || (code == 32);
+        == 44) || (code == 32) || (code == 10);
   }
 
   /****************************************************************************************************/
   /*                                        GUI implementation                                        */
-
   /****************************************************************************************************/
   @Override
   public void update() {

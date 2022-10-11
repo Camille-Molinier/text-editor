@@ -49,7 +49,7 @@ public class Script implements Command {
   /****************************************************************************************************/
   @Override
   public void execute() {
-    if(isSaving){
+    if (isSaving) {
       prepare();
       isSaving = false;
     } else {
@@ -69,23 +69,24 @@ public class Script implements Command {
   /**
    * Save script in text file
    */
-  private void save(){
+  private void save() {
     List<Memento> scriptList = careTaker.getMementoList(startPoint);
 
     try {
-      System.out.println();
-      File output = new File("./out/production/srcV2/scripts/"+ scriptName);
+      // create new file
+      File output = new File("./out/production/srcV2/scripts/" + scriptName);
       output.getParentFile().mkdirs();
       output.createNewFile();
 
+      // create wiriter
       Writer writer = new FileWriter(output);
 
-      for(Memento memento : scriptList) {
-        writer.write(memento.getCommand().toString()+"\n");
+      // write all commands in file with \n separator
+      for (Memento memento : scriptList) {
+        writer.write(memento.getCommand().toString() + "\n");
       }
       writer.close();
-    }
-      catch (Exception e) {
+    } catch (Exception e) {
       System.out.println("Error saving script");
       e.printStackTrace();
     }
