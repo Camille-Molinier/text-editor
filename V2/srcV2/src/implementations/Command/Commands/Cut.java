@@ -6,6 +6,8 @@ import Interfaces.Receiver;
 import implementations.Command.Engine;
 import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Cut implements Command {
     /****************************************************************************************************/
@@ -40,6 +42,7 @@ public class Cut implements Command {
     public void execute() {
         receiver.copy(start, stop);
         receiver.delete(start, stop);
-        originator.save(SimpleBuffer.getInstance().getContent());
+        originator.save(SimpleBuffer.getInstance().getContent(),
+            new ArrayList<String>(Arrays.asList("Cut", start+"", stop+"")));
     }
 }

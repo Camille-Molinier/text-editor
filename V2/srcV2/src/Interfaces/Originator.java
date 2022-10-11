@@ -1,21 +1,23 @@
 package Interfaces;
 
+import java.util.List;
+
 public interface Originator {
 
   /**
    * Save content
    */
-  void save(String content);
+  void save(String content, List<String> command);
 
   /**
-   * Restore previous state
+   * Restore previous tate
    * @return new current state
    */
-  String restore();
+  Memento restore();
 
   /**
    * Restore from old commands
    * @return new current state
    */
-  String respawn();
+  Memento respawn();
 }

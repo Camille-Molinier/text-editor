@@ -10,7 +10,7 @@ public class tester {
 
   public static void main(String[] args) {
     CareTaker c = StackCareTaker.getInstance();
-
+/*
     c.addMemento(new Snapshot("groink"));
     c.addMemento(new Snapshot("rhrdbb"));
     c.addMemento(new Snapshot("grodrbdbrdink"));
@@ -22,6 +22,6 @@ public class tester {
     c.addMemento(new Snapshot("egbb"));
     c.addMemento(new Snapshot("eshjjdjryyhhchh"));
 
-    //System.out.println(c.getMementoList(tmp));
+    //System.out.println(c.getMementoList(tmp));*/
   }
 }

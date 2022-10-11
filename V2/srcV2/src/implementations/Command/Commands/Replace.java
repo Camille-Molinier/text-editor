@@ -6,6 +6,8 @@ import Interfaces.Receiver;
 import implementations.Command.Engine;
 import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Replace implements Command {
     /****************************************************************************************************/
@@ -43,6 +45,7 @@ public class Replace implements Command {
     public void execute() {
         receiver.delete(start, stop-1);
         receiver.insertClipboard(start);
-        originator.save(SimpleBuffer.getInstance().getContent());
+        originator.save(SimpleBuffer.getInstance().getContent(),
+            new ArrayList<String>(Arrays.asList("Replace", start+"", stop+"")));
     }
 }

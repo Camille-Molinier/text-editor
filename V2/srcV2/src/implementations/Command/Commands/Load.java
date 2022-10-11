@@ -8,6 +8,7 @@ import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -46,6 +47,7 @@ public class Load implements Command {
         receiver.insert(sc.nextLine(), 0);
       }
     } catch (Exception e) {System.out.println(e);}
-    originator.save(SimpleBuffer.getInstance().getContent());
+    //originator.save(SimpleBuffer.getInstance().getContent(),
+     //   new ArrayList<String>(Arrays.asList("Load", start+"", stop+"")));
   }
 }
