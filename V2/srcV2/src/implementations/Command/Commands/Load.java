@@ -48,7 +48,6 @@ public class Load implements Command {
       File file = new File("./out/production/srcV2/scripts/" + script);
       // create scanner to browse file
       Scanner sc = new Scanner(file);
-
       // browse file
       while (sc.hasNextLine()) {
         // summon command from line
@@ -90,7 +89,7 @@ public class Load implements Command {
           break;
         // case insert function
         case "Insert":
-          command = new Insert(stringLine.get(1), Integer.parseInt(stringLine.get(2)));
+          command = new Insert(getString(stringLine.get(1)), Integer.parseInt(stringLine.get(2)));
           break;
         // case paste function
         case "Paste":
@@ -109,6 +108,11 @@ public class Load implements Command {
       // execute command
       command.execute();
     }
+  }
+
+  private String getString(String s) {
+    if(s.equals("@")){return "\n";}
+    return s;
   }
 
   /**

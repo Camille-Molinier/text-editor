@@ -15,13 +15,15 @@ import implementations.Command.Commands.Replace;
 import implementations.Command.Commands.Script;
 import implementations.Command.Commands.Undo;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /****************************************************************************************************/
@@ -41,21 +43,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /*------------------------------ Swing components ------------------------------*/
   // text Area
   private JTextArea textArea;
-  // copy button
-  private JButton copyButton;
-  // cut button
-  private JButton cutButton;
-  // paste button
-  private JButton pasteButton;
-  // undo button
-  private JButton undoButton;
-  // redo button
-  private JButton redoButton;
   // script button
-  private JButton scriptButton;
-  // execute script button
-  private JButton executeScript;
-  // caret position label
   private JLabel caretPosLabel;
   // caret position feild
   private JTextField caretPositionField;
@@ -67,16 +55,41 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   private JLabel clipLabel;
   // clipboard content label
   private JLabel clipContentLabel;
-  // script combo box
-  private JComboBox scriptSelector;
   // script naming field
   private JTextField scriptNaming;
   // script naming label
   private JLabel namingLabel;
+  // informative label
+  private JLabel informativeLabel;
+  // main menu bar
+  JMenuBar menuBar;
+  // edit menu
+  JMenu editMenu;
+  // script menu
+  JMenu scriptMenu;
+  // system menu
+  JMenu systemMenu;
+  // exit menu button
+  JMenuItem exitItem;
+  // copy menu button
+  JMenuItem copyItem;
+  // cut menu button
+  JMenuItem cutItem;
+  // paste menu button
+  JMenuItem pasteItem;
+  // undo menu button
+  JMenuItem undoItem;
+  // redo menu button
+  JMenuItem redoItem;
+  // script start menu button
+  JMenuItem startItem;
+  // script load menu button
+  JMenu loadItem;
+  // List of scripts submenus => dynamic list of existing scripts
+  ArrayList<JMenuItem> scripts;
 
   /****************************************************************************************************/
   /*                                            Constructor                                           */
-
   /****************************************************************************************************/
   private MyGUI() {
     buffer = SimpleBuffer.getInstance();
@@ -114,7 +127,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     // disable window resizing
     this.setResizable(false);
     // change content pane color
-    this.getContentPane().setBackground(new Color(34, 31, 31));
+    //this.getContentPane().setBackground(new Color(34, 31, 31));
     // set layout to row layout
     this.setLayout(new FlowLayout());
     // give focus to JFrame
@@ -123,107 +136,41 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     this.setFocusTraversalKeysEnabled(false);
     // add key listener
     this.addKeyListener(this);
+    // change image icon
+    ImageIcon icon = new ImageIcon("./out/production/srcV2/dat/shark-emoji.png");
+    this.setIconImage(icon.getImage());
+
 
     // create caret position label
     caretPosLabel = new JLabel("Caret position");
-    caretPosLabel.setForeground(new Color(150, 150, 150));
 
     // create caret position label
     secondCaretPosLabel = new JLabel("2nd caret position");
-    secondCaretPosLabel.setForeground(new Color(150, 150, 150));
 
     // create clipborad indicator label
     clipLabel = new JLabel("Clipboard content : ");
-    clipLabel.setForeground(new Color(150, 150, 150));
 
     // create clipborad content label
     clipContentLabel = new JLabel("");
-    clipContentLabel.setForeground(new Color(150, 150, 150));
 
     // create script naming label
     namingLabel = new JLabel("Script name");
-    namingLabel.setForeground(new Color(150, 150, 150));
 
-    // create copy button
-    copyButton = new JButton("Copy");
-    // add JFrame listener in button
-    copyButton.addActionListener(this);
-    copyButton.setBackground(new Color(150, 150, 150));
-    copyButton.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // create copy button
-    cutButton = new JButton("Cut");
-    // add JFrame listener in button
-    cutButton.addActionListener(this);
-    cutButton.setBackground(new Color(150, 150, 150));
-    cutButton.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // create copy button
-    pasteButton = new JButton("Paste");
-    // add JFrame listener in button
-    pasteButton.addActionListener(this);
-    pasteButton.setBackground(new Color(150, 150, 150));
-    pasteButton.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // create undo button
-    undoButton = new JButton("Undo");
-    // add JFrame listener in button
-    undoButton.addActionListener(this);
-    undoButton.setBackground(new Color(150, 150, 150));
-    undoButton.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // create undo button
-    redoButton = new JButton("Redo");
-    // add JFrame listener in button
-    redoButton.addActionListener(this);
-    redoButton.setBackground(new Color(150, 150, 150));
-    redoButton.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // creat script button
-    scriptButton = new JButton("Script");
-    // add JFrame listener in button
-    scriptButton.addActionListener(this);
-    scriptButton.setBackground(new Color(150, 150, 150));
-    scriptButton.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // creat script loading button
-    executeScript = new JButton("Load");
-    // add JFrame listener in button
-    executeScript.addActionListener(this);
-    executeScript.setBackground(new Color(150, 150, 150));
-    executeScript.setBorder(new LineBorder(new Color(39, 39, 39)));
-
-    // Script selector
-    scriptSelector = new JComboBox();
-    setScriptList();
+    // create clipborad indicator label
+    informativeLabel = new JLabel("");
 
     // configure text field for caret positioning
     caretPositionField = new JTextField();
-    caretPositionField.setBackground(new Color(39, 39, 39));
-    caretPositionField.setForeground(new Color(150, 150, 150));
-    caretPositionField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-    // set textfield size
-    caretPositionField.setPreferredSize(new Dimension(100, 25));
     // add JFrame listener in textfield
     caretPositionField.addActionListener(this);
 
     // configure second text field for caret positioning
     secondCaretPositionField = new JTextField();
-    secondCaretPositionField.setBackground(new Color(39, 39, 39));
-    secondCaretPositionField.setForeground(new Color(150, 150, 150));
-    secondCaretPositionField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-    // set textfield size
-    secondCaretPositionField.setPreferredSize(new Dimension(100, 25));
     // add JFrame listener in textfield
     secondCaretPositionField.addActionListener(this);
 
     // configure text field for caret positioning
     scriptNaming = new JTextField();
-    scriptNaming.setBackground(new Color(39, 39, 39));
-    scriptNaming.setForeground(new Color(150, 150, 150));
-    scriptNaming.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-    // set textfield size
-    scriptNaming.setPreferredSize(new Dimension(100, 25));
     // add JFrame listener in textfield
     scriptNaming.addActionListener(this);
 
@@ -235,73 +182,144 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     textArea.setAutoscrolls(false);
     // auto newline
     textArea.setLineWrap(true);
-    // background color
-    textArea.setBackground(new Color(39, 39, 39));
-    // font color
-    textArea.setForeground(Color.WHITE);
     // margins
     textArea.setMargin(new Insets(10, 10, 10, 10));
     // add JFrame listener in textarea
     textArea.addKeyListener(this);
-    //TODO : add caretlistener
+    textArea.addCaretListener(new CaretListener() {
+      @Override
+      public void caretUpdate(CaretEvent e) {
+        System.out.println(e.getSource()==textArea);
+      }
+    });
 
     // instantiate scrollPane
     JScrollPane scrollPane = new JScrollPane(textArea);
     // setup dimension
     scrollPane.setPreferredSize(new Dimension(785, 550));
-    // change background color
-    scrollPane.getVerticalScrollBar().setBackground(new Color(44, 44, 44));
     // change scrollbar size
     scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 500));
-    // change border color
-    scrollPane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.darkGray));
-    // insert scroll pane in JFrame
-    //this.add(scrollPane);
 
-    // Creat panel
+    // create panel
     JPanel panel = new JPanel();
-    panel.setBackground(new Color(39, 39, 39));
-    panel.setPreferredSize(new Dimension(775, 75));
-    panel.setLayout(new GridLayout(4, 4));
+    panel.setPreferredSize(new Dimension(775, 80));
+    panel.setLayout(new GridLayout(2, 2, 20, 5));
 
     // insert components in panel
-    panel.add(caretPosLabel, BorderLayout.WEST);
-    panel.add(caretPositionField, BorderLayout.CENTER);
-    panel.add(copyButton);
-    panel.add(undoButton);
-    panel.add(secondCaretPosLabel, BorderLayout.WEST);
-    panel.add(secondCaretPositionField, BorderLayout.CENTER);
-    panel.add(cutButton);
-    panel.add(redoButton);
-    panel.add(clipLabel, BorderLayout.SOUTH);
-    panel.add(clipContentLabel, BorderLayout.SOUTH);
-    panel.add(pasteButton);
-    panel.add(scriptButton);
-    panel.add(namingLabel);
-    panel.add(scriptNaming);
-    panel.add(scriptSelector);
-    panel.add(executeScript);
+    JPanel cursorPanel = new JPanel(new GridLayout(2, 2, 10, 5));
+    cursorPanel.add(caretPosLabel);
+    cursorPanel.add(caretPositionField);
+    cursorPanel.add(secondCaretPosLabel);
+    cursorPanel.add(secondCaretPositionField);
+
+    panel.add(cursorPanel);
+
+    JPanel othersPanel = new JPanel(new GridLayout(2, 2, 10, 5));
+    othersPanel.add(clipLabel);
+    othersPanel.add(clipContentLabel);
+    othersPanel.add(namingLabel);
+    othersPanel.add(scriptNaming);
+    panel.add(othersPanel);
+
+    JPanel infoPanel = new JPanel(new GridLayout(1, 1, 10, 5));
+    infoPanel.add(informativeLabel);
+    panel.add(infoPanel);
+
+    // create menu bar
+    menuBar = new JMenuBar();
+    menuBar.setPreferredSize(new Dimension(800, 20));
+
+    editMenu = new JMenu("edit");
+    scriptMenu = new JMenu("script");
+    systemMenu = new JMenu("system");
+
+    copyItem = new JMenuItem("copy");
+    copyItem.addActionListener(this);
+    ImageIcon copyIcon = new ImageIcon("./out/production/srcV2/dat/copy.png");
+    copyItem.setIcon(copyIcon);
+
+
+    cutItem = new JMenuItem("cut");
+    cutItem.addActionListener(this);
+    ImageIcon cutIcon = new ImageIcon("./out/production/srcV2/dat/cut.png");
+    cutItem.setIcon(cutIcon);
+
+    pasteItem = new JMenuItem("paste");
+    pasteItem.addActionListener(this);
+    ImageIcon pasteIcon = new ImageIcon("./out/production/srcV2/dat/paste.png");
+    pasteItem.setIcon(pasteIcon);
+
+    undoItem = new JMenuItem("undo");
+    undoItem.addActionListener(this);
+    ImageIcon undoIcon = new ImageIcon("./out/production/srcV2/dat/undo.png");
+    undoItem.setIcon(undoIcon);
+
+    redoItem = new JMenuItem("redo");
+    redoItem.addActionListener(this);
+    ImageIcon redoIcon = new ImageIcon("./out/production/srcV2/dat/redo.png");
+    redoItem.setIcon(redoIcon);
+
+    editMenu.add(copyItem);
+    editMenu.add(cutItem);
+    editMenu.add(pasteItem);
+    editMenu.addSeparator();
+    editMenu.add(undoItem);
+    editMenu.add(redoItem);
+
+    startItem = new JMenuItem("start");
+    startItem.addActionListener(this);
+    ImageIcon startIcon = new ImageIcon("./out/production/srcV2/dat/script.png");
+    startItem.setIcon(startIcon);
+
+    loadItem = new JMenu("load");
+    loadItem.addActionListener(this);
+    ImageIcon loadIcon = new ImageIcon("./out/production/srcV2/dat/execute.png");
+    loadItem.setIcon(loadIcon);
+
+    scriptMenu.add(startItem);
+    scriptMenu.add(loadItem);
+    scripts = new ArrayList<JMenuItem>();
+    setScriptList();
+
+    exitItem = new JMenuItem("exit");
+    ImageIcon exitIcon = new ImageIcon("./out/production/srcV2/dat/exit.png");
+    exitItem.setIcon(exitIcon);
+    exitItem.addActionListener(this);
+    systemMenu.add(exitItem);
+
+    menuBar.add(editMenu);
+    menuBar.add(scriptMenu);
+    menuBar.add(systemMenu);
+
+    this.setJMenuBar(menuBar);
 
     // add panel and scrollPane in frame
     this.add(panel);
     this.add(scrollPane);
+
+    // set look to be more beautifully
+    try {
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } catch (Exception e) {System.out.println(e);}
+
     // set canvas as visible
     this.setVisible(true);
   }
 
   public void setScriptList() {
-    scriptSelector.removeAllItems();
+    scripts.clear();
+    loadItem.removeAll();
     File folder = new File("./out/production/srcV2/scripts");
     File[] files = folder.listFiles();
 
-    if (files == null) {
-      scriptSelector.addItem("");
-    } else {
+    if (!(files == null)) {
       for (File f : files) {
-        scriptSelector.addItem(f.getName());
+        JMenuItem item = new JMenuItem(f.getName());
+        item.addActionListener(this);
+        scripts.add(item);
+        loadItem.add(item);
       }
     }
-
   }
 
   /****************************************************************************************************/
@@ -309,8 +327,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /****************************************************************************************************/
   @Override
   public void actionPerformed(ActionEvent e) {
-    // if copy button is triggered
-    if (e.getSource() == copyButton) {
+    // if copy submenu is triggered
+    if (e.getSource() == copyItem) {
       int start = caretPosition;
       int stop = secondCaretPosition;
 
@@ -323,8 +341,9 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       invoker.setCommand(new Copy(start, stop));
     }
 
-    // if cut button is triggered
-    if (e.getSource() == cutButton) {
+    // if cut submenu is triggered
+    if (e.getSource() == cutItem) {
+      System.out.println("CUT");
       int start = caretPosition;
       int stop = secondCaretPosition;
 
@@ -339,8 +358,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       secondCaretPosition = caretPosition;
     }
 
-    // if paste button is triggered
-    if (e.getSource() == pasteButton) {
+    // if paste submenu is triggered
+    if (e.getSource() == pasteItem) {
       if (caretPosition != secondCaretPosition) {
         invoker.setCommand(new Replace(caretPosition, secondCaretPosition));
       } else {
@@ -348,31 +367,39 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       }
     }
 
-    // if undo button is triggered
-    if (e.getSource() == undoButton) {
+    // if undo submenu is triggered
+    if (e.getSource() == undoItem) {
       invoker.setCommand(new Undo());
     }
 
-    // if redo button is triggered
-    if (e.getSource() == redoButton) {
+    // if redo submenu is triggered
+    if (e.getSource() == redoItem) {
       invoker.setCommand(new Redo());
     }
 
-    // if script button is triggered
-    if (e.getSource() == scriptButton) {
-      if (scriptButton.getText() == "Script") {
-        scriptButton.setText("Save");
+    // if script submenu is triggered
+    if (e.getSource() == startItem) {
+      if (startItem.getText() == "start") {
+        startItem.setText("save");
+        ImageIcon saveIcon = new ImageIcon("./out/production/srcV2/dat/save.png");
+        startItem.setIcon(saveIcon);
+        if(scriptNaming.getText().isEmpty()) {
+          informativeLabel.setText("enter script name");
+        }
       } else {
-        scriptButton.setText("Script");
+        startItem.setText("start");
+        ImageIcon scriptIcon = new ImageIcon("./out/production/srcV2/dat/script.png");
+        startItem.setIcon(scriptIcon);
+        informativeLabel.setText("");
       }
       invoker.setCommand(Script.getInstance(scriptNaming.getText()));
-      setScriptList();
+      //setScriptList();
     }
 
-    // if load button is triggered
-    if (e.getSource() == executeScript) {
+    // if load submenu is triggered
+    if (scripts.contains(e.getSource())) {
       invoker.setCommand(new Load(SimpleBuffer.getInstance().getContent(), caretPosition,
-          String.valueOf(scriptSelector.getSelectedItem())));
+          scripts.get(scripts.indexOf(e.getSource())).getText()));
     }
 
     // if first caret textefield triggered
@@ -383,6 +410,15 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     // if second caret textfield is triggered
     if (e.getSource() == secondCaretPositionField) {
       moveCursor(secondCaretPositionField.getText(), 2);
+    }
+
+    // if exit is trigger
+    if (e.getSource() == exitItem) {
+      System.exit(0);
+    }
+
+    if (e.getSource()==scriptNaming) {
+      informativeLabel.setText("");
     }
 
     // execute set command
@@ -413,7 +449,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     if (s.isEmpty()) {
       return 0;
     }
-    boolean error = false;
     for (int i = 0; i < s.length(); i++) {
       if (!(s.charAt(i) == '0' || s.charAt(i) == '1' || s.charAt(i) == '2' || s.charAt(i) == '3'
           || s.charAt(i) == '4' ||
@@ -423,7 +458,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
         caretPositionField.setText(caretPosition + "");
         secondCaretPosition = 0;
         secondCaretPositionField.setText(secondCaretPosition + "");
-        error = true;
         return buffer.getContent().length();
       }
     }

@@ -8,6 +8,7 @@ import Interfaces.Receiver;
 import implementations.Command.Engine;
 import implementations.Memento.MyOriginator;
 import implementations.Memento.StackCareTaker;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -83,12 +84,19 @@ public class Script implements Command {
 
       // write all commands in file with \n separator
       for (Memento memento : scriptList) {
-        writer.write(memento.getCommand().toString() + "\n");
+        String command = memento.getCommand().toString();
+        if (command.contains("\n")) {
+          command = command.replace("\n", "@");
+          System.out.println(command);
+        }
+        System.out.println(command);
+        writer.write(command + "\n");
       }
       writer.close();
     } catch (Exception e) {
       System.out.println("Error saving script");
       e.printStackTrace();
     }
+
   }
 }
