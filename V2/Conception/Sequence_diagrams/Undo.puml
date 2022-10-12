@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant GUI #ff6961
+participant Invoker #ff6961
+participant Undo #ff6961
+participant Originator #1677CB
+participant Memento #1677CB
+participant CareTaker #1677CB
+participant Reciever #ff6961
+participant Buffer #ff6961
+
+activate CareTaker #1677CB
+activate Invoker #ff6961
+activate GUI #ff6961
+activate Buffer #ff6961
+activate Memento #1677CB
+
+User -> GUI : appui sur le bouton "undo"
+
+activate Undo #ff6961
+activate Reciever #ff6961
+GUI -> Invoker : setCommand(new Undo())
+GUI -> Invoker : executeCommand()
+
+activate Originator #1677CB
+Invoker -> Undo : execute()
+
+Undo -> Originator : restore()
+
+Originator -> CareTaker : getMemento()
+CareTaker --> Originator : memento
+Originator -> Memento : getContent()
+Memento --> Originator : String content
+Originator --> Undo : String content
+
+Undo -> Reciever : delete()
+Reciever -> Buffer : deleteContent()
+
+Undo -> Reciever : insert(0, content)
+Reciever -> Buffer : addContent(0, content)
+
+GUI -> Buffer : getContent()
+@enduml

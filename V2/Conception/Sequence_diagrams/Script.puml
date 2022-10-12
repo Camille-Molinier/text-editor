@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+participant GUI #ff6961
+participant Invoker #ff6961
+participant Script #ff6961
+participant CareTaker #1677CB
+participant Buffer #ff6961
+
+activate GUI #ff6961
+activate Invoker #ff6961
+activate Script #ff6961
+activate Buffer #ff6961
+
+
+User -> GUI : appui sur le bouton "start script"
+GUI -> User : "start script" -> "end script"
+
+GUI -> Invoker : setCommand(Script.getInstance())
+GUI -> Invoker : executeCommand()
+
+Invoker -> Script : execute()
+
+activate CareTaker #1677CB
+
+Script -> CareTaker : getMemento()
+CareTaker --> Script : Memento : Memento
+
+User -> GUI : fait des actions
+User -> GUI : appuie sur le bouton "save script"
+
+GUI -> Invoker : setCommand(Script.getInstance())
+GUI -> Invoker : executeCommand()
+Invoker -> Script : execute()
+
+Script -> CareTaker : getMementoList(Memento memento)
+CareTaker --> Script : List<Memento>
+
+activate "Text File"
+Script -> "Text File" : save()
+
+
+@enduml
