@@ -9,7 +9,6 @@ participant GUI #ff6961
 participant Invoker #ff6961
 participant Undo #ff6961
 participant Originator #1677CB
-participant Memento #1677CB
 participant CareTaker #1677CB
 participant Reciever #ff6961
 participant Buffer #ff6961
@@ -18,7 +17,6 @@ activate CareTaker #1677CB
 activate Invoker #ff6961
 activate GUI #ff6961
 activate Buffer #ff6961
-activate Memento #1677CB
 
 User -> GUI : appui sur le bouton "undo"
 
@@ -34,9 +32,7 @@ Undo -> Originator : restore()
 
 Originator -> CareTaker : getMemento()
 CareTaker --> Originator : memento
-Originator -> Memento : getContent()
-Memento --> Originator : String content
-Originator --> Undo : String content
+Originator --> Undo : memento
 
 Undo -> Reciever : delete()
 Reciever -> Buffer : deleteContent()

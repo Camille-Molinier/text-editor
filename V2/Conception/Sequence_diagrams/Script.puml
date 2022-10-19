@@ -18,7 +18,7 @@ activate Buffer #ff6961
 
 
 User -> GUI : appui sur le bouton "start script"
-GUI -> User : "start script" -> "end script"
+GUI -> User : "start script" -> "save
 
 GUI -> Invoker : setCommand(Script.getInstance())
 GUI -> Invoker : executeCommand()

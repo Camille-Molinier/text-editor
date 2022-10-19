@@ -54,7 +54,8 @@ public class Script implements Command {
       prepare();
       isSaving = false;
     } else {
-      save();
+      List<Memento> scriptList = careTaker.getMementoList(startPoint);
+      save(scriptList);
       isSaving = true;
     }
   }
@@ -70,9 +71,7 @@ public class Script implements Command {
   /**
    * Save script in text file
    */
-  private void save() {
-    List<Memento> scriptList = careTaker.getMementoList(startPoint);
-
+  private void save(List<Memento> scriptList) {
     try {
       // create new file
       File output = new File("./out/production/srcV2/scripts/" + scriptName);

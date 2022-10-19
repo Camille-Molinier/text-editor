@@ -12,7 +12,6 @@ interface Invoker #ffb480 {
 }
 
 interface Command #ffb480 {
-    - receiver
     + execute()
 }
 
@@ -24,34 +23,33 @@ interface Receiver #ffb480 {
 }
 
 interface Clipboard #ffb480 {
-    - content
     + setContent(string)
     + getContent()
 }
 
 interface Buffer #ffb480 {
-    - String content
     + addContent(String s, int position)
     + deleteContent(int start, int stop)
     + getContent()
 }
 
 interface Originator #59adf6 {
-    + String curentState;
-    + void save();
-    + String restore();
+    + save();
+    + restore();
 }
 
 interface Memento #59adf6 {
-    - String content
-
-    + String getContent()
+    + getContent()
+    + getCommand()
+    + equals(memento)
 }
 
 interface CareTaker #59adf6 {
-    + void addMemento(Memento)
-    + Memento getMemento()
-    + List<Memento> getList()
+    + addMemento(Memento)
+    + getMemento()
+    + showMemento()
+    + getMementoList(memento)
+    + renew()
 }
 
 class SimpleGUI #ff6961;line.bold:C80900 {
@@ -68,41 +66,41 @@ class Engine #ff6961 {
 
 
 class Copy #ff6961 {
-    - int start
-    - int stop
+    - start
+    - stop
     - receiver
     + execute()
 }
 
 class Cut #ff6961 {
-    - int start
-    - int stop
+    - start
+    - stop
     - receiver
     + execute()
 }
 
 class Paste #ff6961 {
-    - int position
+    - position
     - receiver
     + execute()
 }
 
 class Replace #ff6961 {
-    - int start
-    - int stop
+    - start
+    - stop
     - receiver
     + execute()
 }
 
 class Delete #ff6961 {
-    - int position
+    - position
     - receiver
     + execute()
 }
 
 class Insert #ff6961 {
-    + int position
-    - String insert
+    + position
+    - insert
     - receiver
     + execute()
 }
@@ -125,10 +123,13 @@ class Script #ff6961;line.bold:C80900 {
 class Load #ff6961 {
     - receiver
     + execute()
+    - summonCommand(String line)
+    - getString(String s)
+    - getLineList(String line)
 }
 
 class SimpleBuffer #ff6961;line.bold:C80900 {
-    - String content
+    - content
     + getInstance()
     + addContent(String s, int position)
     + deleteContent(int start, int stop)
@@ -148,21 +149,29 @@ class DummyInvoker #ff6961 {
 }
 
 class MyOriginator #176EBB {
-    + String curentState;
-    + void save();
-    + String restore();
+    + curentState;
+    + save();
+    + restore();
 }
 
 class Snapshot #176EBB {
-    - String content
-
-    + String getContent()
+    - content
+    - command
+    + getContent()
+    + getCommand()
+    + equals(memento)
 }
 
 class StackCareTaker #1677CB;line.bold:002D55 {
-    + void addMemento(Memento)
-    + Memento getMemento()
-    + List<Memento> getList()
+    - commands
+    - old
+    - instance
+    + getInstance()
+    + addMemento(Memento)
+    + getMemento()
+    + showMemento()
+    + getMementoList(memento)
+    + renew()
 }
 
 GUI --- "1"Buffer
