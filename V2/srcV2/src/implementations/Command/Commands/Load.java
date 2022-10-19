@@ -111,7 +111,7 @@ public class Load implements Command {
   }
 
   private String getString(String s) {
-    if(s.equals("@")){return "\n";}
+    if(s.equals("^")){return "\n";}
     return s;
   }
 

@@ -142,19 +142,19 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
 
     // create caret position label
-    caretPosLabel = new JLabel("Caret position");
+    caretPosLabel = new JLabel("Caret position         :");
 
     // create caret position label
-    secondCaretPosLabel = new JLabel("2nd caret position");
+    secondCaretPosLabel = new JLabel("2nd caret position :");
 
     // create clipborad indicator label
-    clipLabel = new JLabel("Clipboard content : ");
+    clipLabel = new JLabel("Clipboard content :");
 
     // create clipborad content label
     clipContentLabel = new JLabel("");
 
     // create script naming label
-    namingLabel = new JLabel("Script name");
+    namingLabel = new JLabel("Script name           :");
 
     // create clipborad indicator label
     informativeLabel = new JLabel("");
@@ -189,7 +189,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     textArea.addCaretListener(new CaretListener() {
       @Override
       public void caretUpdate(CaretEvent e) {
-        System.out.println(e.getSource()==textArea);
+        System.out.println(e.getDot() + " | " + e.getMark() + " | " + e.getSource());
       }
     });
 
@@ -214,7 +214,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
     panel.add(cursorPanel);
 
-    JPanel othersPanel = new JPanel(new GridLayout(2, 2, 10, 5));
+    JPanel othersPanel = new JPanel(new GridLayout(2, 2, 0, 0));
     othersPanel.add(clipLabel);
     othersPanel.add(clipContentLabel);
     othersPanel.add(namingLabel);
@@ -316,6 +316,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       for (File f : files) {
         JMenuItem item = new JMenuItem(f.getName());
         item.addActionListener(this);
+        ImageIcon fileIcon = new ImageIcon("./out/production/srcV2/dat/file.png");
+        item.setIcon(fileIcon);
         scripts.add(item);
         loadItem.add(item);
       }
@@ -343,7 +345,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
     // if cut submenu is triggered
     if (e.getSource() == cutItem) {
-      System.out.println("CUT");
       int start = caretPosition;
       int stop = secondCaretPosition;
 
@@ -491,6 +492,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       // assert caret position is not at max position
       if (caretPosition < buffer.getContent().length()) {
         caretPosition++;
+        secondCaretPosition++;
       }
     }
     // if key is left arrow
@@ -498,6 +500,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       // assert caret position is not at min position
       if (caretPosition > 0) {
         caretPosition--;
+        secondCaretPosition--;
       }
     }
 
