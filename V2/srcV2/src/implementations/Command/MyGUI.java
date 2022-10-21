@@ -43,24 +43,14 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /*------------------------------ Swing components ------------------------------*/
   // text Area
   private JTextArea textArea;
-  // script button
-  private JLabel caretPosLabel;
-  // caret position feild
-  private JTextField caretPositionField;
-  // 2nd caret position label
-  private JLabel secondCaretPosLabel;
-  // 2nd carret position feild
-  private JTextField secondCaretPositionField;
-  // clipborad indicator label
-  private JLabel clipLabel;
-  // clipboard content label
-  private JLabel clipContentLabel;
   // script naming field
   private JTextField scriptNaming;
   // script naming label
   private JLabel namingLabel;
-  // informative label
-  private JLabel informativeLabel;
+  // selection label
+  private JLabel selection;
+  // script naming panel
+  JPanel othersPanel;
   // main menu bar
   JMenuBar menuBar;
   // edit menu
@@ -140,35 +130,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     ImageIcon icon = new ImageIcon("./out/production/srcV2/dat/shark-emoji.png");
     this.setIconImage(icon.getImage());
 
-
-    // create caret position label
-    caretPosLabel = new JLabel("Caret position         :");
-
-    // create caret position label
-    secondCaretPosLabel = new JLabel("2nd caret position :");
-
-    // create clipborad indicator label
-    clipLabel = new JLabel("Clipboard content :");
-
-    // create clipborad content label
-    clipContentLabel = new JLabel("");
-
-    // create script naming label
-    namingLabel = new JLabel("Script name           :");
-
-    // create clipborad indicator label
-    informativeLabel = new JLabel("");
-
-    // configure text field for caret positioning
-    caretPositionField = new JTextField();
-    // add JFrame listener in textfield
-    caretPositionField.addActionListener(this);
-
-    // configure second text field for caret positioning
-    secondCaretPositionField = new JTextField();
-    // add JFrame listener in textfield
-    secondCaretPositionField.addActionListener(this);
-
     // configure text field for caret positioning
     scriptNaming = new JTextField();
     // add JFrame listener in textfield
@@ -186,12 +147,6 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     textArea.setMargin(new Insets(10, 10, 10, 10));
     // add JFrame listener in textarea
     textArea.addKeyListener(this);
-    textArea.addCaretListener(new CaretListener() {
-      @Override
-      public void caretUpdate(CaretEvent e) {
-        System.out.println(e.getDot() + " | " + e.getMark() + " | " + e.getSource());
-      }
-    });
 
     // instantiate scrollPane
     JScrollPane scrollPane = new JScrollPane(textArea);
@@ -200,30 +155,14 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     // change scrollbar size
     scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 500));
 
-    // create panel
-    JPanel panel = new JPanel();
-    panel.setPreferredSize(new Dimension(775, 80));
-    panel.setLayout(new GridLayout(2, 2, 20, 5));
+    namingLabel = new JLabel("Script name : ");
+    scriptNaming = new JTextField();
 
-    // insert components in panel
-    JPanel cursorPanel = new JPanel(new GridLayout(2, 2, 10, 5));
-    cursorPanel.add(caretPosLabel);
-    cursorPanel.add(caretPositionField);
-    cursorPanel.add(secondCaretPosLabel);
-    cursorPanel.add(secondCaretPositionField);
-
-    panel.add(cursorPanel);
-
-    JPanel othersPanel = new JPanel(new GridLayout(2, 2, 0, 0));
-    othersPanel.add(clipLabel);
-    othersPanel.add(clipContentLabel);
+    othersPanel = new JPanel(new GridLayout(1, 2, 0, 0));
     othersPanel.add(namingLabel);
     othersPanel.add(scriptNaming);
-    panel.add(othersPanel);
-
-    JPanel infoPanel = new JPanel(new GridLayout(1, 1, 10, 5));
-    infoPanel.add(informativeLabel);
-    panel.add(infoPanel);
+    this.add(othersPanel);
+    othersPanel.setVisible(false);
 
     // create menu bar
     menuBar = new JMenuBar();
@@ -237,27 +176,37 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     copyItem.addActionListener(this);
     ImageIcon copyIcon = new ImageIcon("./out/production/srcV2/dat/copy.png");
     copyItem.setIcon(copyIcon);
-
+    copyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1,
+        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
     cutItem = new JMenuItem("cut");
     cutItem.addActionListener(this);
     ImageIcon cutIcon = new ImageIcon("./out/production/srcV2/dat/cut.png");
     cutItem.setIcon(cutIcon);
+    cutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2,
+        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
     pasteItem = new JMenuItem("paste");
     pasteItem.addActionListener(this);
     ImageIcon pasteIcon = new ImageIcon("./out/production/srcV2/dat/paste.png");
     pasteItem.setIcon(pasteIcon);
+    pasteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
+        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
     undoItem = new JMenuItem("undo");
     undoItem.addActionListener(this);
     ImageIcon undoIcon = new ImageIcon("./out/production/srcV2/dat/undo.png");
     undoItem.setIcon(undoIcon);
+    undoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
+        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
     redoItem = new JMenuItem("redo");
     redoItem.addActionListener(this);
     ImageIcon redoIcon = new ImageIcon("./out/production/srcV2/dat/redo.png");
     redoItem.setIcon(redoIcon);
+    redoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5,
+        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
 
     editMenu.add(copyItem);
     editMenu.add(cutItem);
@@ -293,9 +242,19 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
 
     this.setJMenuBar(menuBar);
 
-    // add panel and scrollPane in frame
+    JPanel infoPanel = new JPanel(new GridLayout(1,4));
+    infoPanel.add(new JLabel("selection : "));
+    selection = new JLabel("");
+    infoPanel.add(selection);
+
+    JPanel panel = new JPanel(new BorderLayout());
+    panel.add(scrollPane, BorderLayout.CENTER);
+    panel.add(infoPanel, BorderLayout.NORTH);
+
     this.add(panel);
-    this.add(scrollPane);
+
+    // add panel and scrollPane in frame
+    //this.add(scrollPane);
 
     // set look to be more beautifully
     try {
@@ -329,6 +288,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /****************************************************************************************************/
   @Override
   public void actionPerformed(ActionEvent e) {
+    buffer.deleteContent(caretPosition, caretPosition);
+
     // if copy submenu is triggered
     if (e.getSource() == copyItem) {
       int start = caretPosition;
@@ -340,7 +301,15 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
         start = stop;
         stop = tmp;
       }
-      invoker.setCommand(new Copy(start, stop));
+      invoker.setCommand(new Copy(start+1, stop));
+      // execute set command
+      invoker.executeCommand();
+
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      secondCaretPosition=caretPosition;
+      selection.setText(buffer.getContent().substring(secondCaretPosition, caretPosition));
+      update();
     }
 
     // if cut submenu is triggered
@@ -357,6 +326,14 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
       invoker.setCommand(new Cut(start, stop));
       caretPosition = caretPosition - (stop - start);
       secondCaretPosition = caretPosition;
+
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      secondCaretPosition=caretPosition;
+      selection.setText(buffer.getContent().substring(secondCaretPosition, caretPosition));
+      update();
     }
 
     // if paste submenu is triggered
@@ -365,86 +342,97 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
         invoker.setCommand(new Replace(caretPosition, secondCaretPosition));
       } else {
         invoker.setCommand(new Paste(caretPosition));
+        caretPosition += SimpleClipboard.getInstance().getContent().length();
+        secondCaretPosition = caretPosition;
       }
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
 
     // if undo submenu is triggered
     if (e.getSource() == undoItem) {
       invoker.setCommand(new Undo());
+
+      // execute set command
+      invoker.executeCommand();
+      if(caretPosition>buffer.getContent().length()){
+        caretPosition=buffer.getContent().length();
+        secondCaretPosition=caretPosition;
+      }
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
 
     // if redo submenu is triggered
     if (e.getSource() == redoItem) {
       invoker.setCommand(new Redo());
+
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
 
     // if script submenu is triggered
     if (e.getSource() == startItem) {
       if (startItem.getText() == "start") {
+        othersPanel.setVisible(true);
         startItem.setText("save");
         ImageIcon saveIcon = new ImageIcon("./out/production/srcV2/dat/save.png");
         startItem.setIcon(saveIcon);
-        if(scriptNaming.getText().isEmpty()) {
-          informativeLabel.setText("enter script name");
-        }
       } else {
         startItem.setText("start");
         ImageIcon scriptIcon = new ImageIcon("./out/production/srcV2/dat/script.png");
         startItem.setIcon(scriptIcon);
-        informativeLabel.setText("");
+        othersPanel.setVisible(false);
       }
       invoker.setCommand(Script.getInstance(scriptNaming.getText()));
-      //setScriptList();
+
+      caretPosition = buffer.getContent().length();
+      secondCaretPosition = caretPosition;
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
 
     // if load submenu is triggered
     if (scripts.contains(e.getSource())) {
       invoker.setCommand(new Load(SimpleBuffer.getInstance().getContent(), caretPosition,
           scripts.get(scripts.indexOf(e.getSource())).getText()));
-    }
 
-    // if first caret textefield triggered
-    if (e.getSource() == caretPositionField) {
-      moveCursor(caretPositionField.getText(), 1);
-    }
-
-    // if second caret textfield is triggered
-    if (e.getSource() == secondCaretPositionField) {
-      moveCursor(secondCaretPositionField.getText(), 2);
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
 
     // if exit is trigger
     if (e.getSource() == exitItem) {
       System.exit(0);
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
 
     if (e.getSource()==scriptNaming) {
-      informativeLabel.setText("");
-    }
-
-    // execute set command
-    invoker.executeCommand();
-    update();
-  }
-
-  private void moveCursor(String s, int cursor) {
-    int content = parseString2Int(s);
-    // make sure position is not out of range
-    if (content <= buffer.getContent().length()) {
-      // if cursor = 1
-      if (cursor == 1) {
-        caretPosition = content;
-      } else {
-        secondCaretPosition = content;
-      }
-    } else { // Otherwise => set caret position at content end
-      if (cursor == 1) {
-        caretPosition = buffer.getContent().length();
-      } else {
-        secondCaretPosition = buffer.getContent().length();
-      }
+      // execute set command
+      invoker.executeCommand();
+      invoker.setCommand(new Insert("¦", caretPosition));
+      invoker.executeCommand();
+      update();
     }
   }
+
 
   private int parseString2Int(String s) {
     if (s.isEmpty()) {
@@ -456,9 +444,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
           s.charAt(i) == '5' || s.charAt(i) == '6' || s.charAt(i) == '7' || s.charAt(i) == '8'
           || s.charAt(i) == '9')) {
         caretPosition = 0;
-        caretPositionField.setText(caretPosition + "");
         secondCaretPosition = 0;
-        secondCaretPositionField.setText(secondCaretPosition + "");
         return buffer.getContent().length();
       }
     }
@@ -471,6 +457,8 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /****************************************************************************************************/
   @Override
   public void keyPressed(KeyEvent e) {
+    buffer.deleteContent(caretPosition, caretPosition);
+
     // if key is a text char
     if (isTextChar(e.getKeyCode())) {
       // insert char
@@ -491,20 +479,44 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     if (e.getKeyCode() == 39) {
       // assert caret position is not at max position
       if (caretPosition < buffer.getContent().length()) {
+        if(secondCaretPosition==caretPosition) {
+          secondCaretPosition++;
+        }
         caretPosition++;
-        secondCaretPosition++;
       }
+      selection.setText(buffer.getContent().substring(secondCaretPosition, caretPosition));
     }
     // if key is left arrow
     if (e.getKeyCode() == 37) {
       // assert caret position is not at min position
       if (caretPosition > 0) {
+        if(caretPosition==secondCaretPosition) {
+          secondCaretPosition--;
+        }
         caretPosition--;
+      }
+      selection.setText(buffer.getContent().substring(secondCaretPosition, caretPosition));
+    }
+    // if key is up arrow
+    if(e.getKeyCode()==38){
+      // assert second caret < caret
+      if(secondCaretPosition<caretPosition){
+        secondCaretPosition++;
+      }
+      selection.setText(buffer.getContent().substring(secondCaretPosition, caretPosition));
+    }
+    // if key is down null
+    if(e.getKeyCode()==40) {
+      // assert carret is not at position 0
+      if(secondCaretPosition>0){
         secondCaretPosition--;
       }
+      selection.setText(buffer.getContent().substring(secondCaretPosition, caretPosition));
     }
 
     // execute command
+    invoker.executeCommand();
+    invoker.setCommand(new Insert("¦", caretPosition));
     invoker.executeCommand();
     update();
   }
@@ -552,11 +564,5 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
     if (secondCaretPosition > buffer.getContent().length()) {
       secondCaretPosition = buffer.getContent().length();
     }
-
-    // set carets labels
-    caretPositionField.setText(caretPosition + "");
-    secondCaretPositionField.setText(secondCaretPosition + "");
-    // set clipborad label
-    clipContentLabel.setText(SimpleClipboard.getInstance().getContent());
   }
 }

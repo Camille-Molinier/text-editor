@@ -4,6 +4,7 @@ import Interfaces.Command;
 import Interfaces.Originator;
 import Interfaces.Receiver;
 import implementations.Command.Engine;
+import implementations.Command.MyGUI;
 import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
 import java.util.ArrayList;
