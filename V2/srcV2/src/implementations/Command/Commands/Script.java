@@ -86,9 +86,7 @@ public class Script implements Command {
         String command = memento.getCommand().toString();
         if (command.contains("\n")) {
           command = command.replace("\n", "^");
-          System.out.println(command);
         }
-        System.out.println(command);
         writer.write(command + "\n");
       }
       writer.close();

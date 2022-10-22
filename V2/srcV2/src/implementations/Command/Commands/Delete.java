@@ -4,7 +4,6 @@ import Interfaces.Command;
 import Interfaces.Originator;
 import Interfaces.Receiver;
 import implementations.Command.Engine;
-import implementations.Command.MyGUI;
 import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
 import java.util.ArrayList;
@@ -15,22 +14,22 @@ public class Delete implements Command {
   /*                                            Attributes                                            */
   /****************************************************************************************************/
   // position parameter
-  private int position;
-  private Receiver receiver;
-  private Originator originator;
+  private final int position;
+  private final Receiver receiver;
+  private final Originator originator;
 
-  /****************************************************************************************************/
-  /*                                            Constructor                                           */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Constructor                                         */
+  /************************************************************************************************/
   public Delete(int pos) {
     position = pos;
     receiver = new Engine();
     originator = new MyOriginator();
   }
 
-  /****************************************************************************************************/
-  /*                                              Methods                                             */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                            Methods                                           */
+  /************************************************************************************************/
   @Override
   public void execute() {
     receiver.delete(position - 1, position - 1);

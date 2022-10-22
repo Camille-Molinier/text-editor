@@ -16,14 +16,13 @@ public class Load implements Command {
   /****************************************************************************************************/
   /*                                            Attributes                                            */
   /****************************************************************************************************/
-  private Receiver receiver;
-  private Originator originator;
+  private final Originator originator;
   // buffer content
-  private String content;
+  private final String content;
   // script name
-  private String script;
+  private final String script;
   // current position
-  private int position;
+  private final int position;
   // command
   private Command command;
 
@@ -34,7 +33,6 @@ public class Load implements Command {
     script = scriptName;
     position = pos;
     content = cont;
-    receiver = new Engine();
     originator = new MyOriginator();
   }
   /****************************************************************************************************/
@@ -54,7 +52,7 @@ public class Load implements Command {
         summonCommand(sc.nextLine());
       }
     } catch (Exception e) {
-      System.out.println(e);
+      System.out.println(e.getMessage());
     }
     // save state
     originator.save(SimpleBuffer.getInstance().getContent(),
@@ -64,7 +62,7 @@ public class Load implements Command {
   /**
    * Execute commands from line
    *
-   * @param line
+   * @param line : String
    */
   private void summonCommand(String line) {
     // parse list to get line in list of string list
@@ -74,36 +72,29 @@ public class Load implements Command {
       // switch first element
       switch (stringLine.get(0)) {
         // case copy function
-        case "Copy":
-          command = new Copy(Integer.parseInt(stringLine.get(1)),
-              Integer.parseInt(stringLine.get(2)));
-          break;
+        case "Copy" -> command = new Copy(Integer.parseInt(stringLine.get(1)),
+            Integer.parseInt(stringLine.get(2)));
+
         // case cut function
-        case "Cut":
-          command = new Cut(Integer.parseInt(stringLine.get(1)),
-              Integer.parseInt(stringLine.get(2)));
-          break;
+        case "Cut" -> command = new Cut(Integer.parseInt(stringLine.get(1)),
+            Integer.parseInt(stringLine.get(2)));
+
         // case delete function
-        case "Delete":
-          command = new Delete(Integer.parseInt(stringLine.get(1)));
-          break;
+        case "Delete" -> command = new Delete(Integer.parseInt(stringLine.get(1)));
+
         // case insert function
-        case "Insert":
-          command = new Insert(getString(stringLine.get(1)), Integer.parseInt(stringLine.get(2)));
-          break;
+        case "Insert" ->
+            command = new Insert(getString(stringLine.get(1)), Integer.parseInt(stringLine.get(2)));
+
         // case paste function
-        case "Paste":
-          command = new Paste(Integer.parseInt(stringLine.get(1)));
-          break;
+        case "Paste" -> command = new Paste(Integer.parseInt(stringLine.get(1)));
+
         // case redo function
-        case "Redo":
-          command = new Redo();
-          break;
+        case "Redo" -> command = new Redo();
+
         // case replace function
-        case "Replace":
-          command = new Replace(Integer.parseInt(stringLine.get(1)),
-              Integer.parseInt(stringLine.get(2)));
-          break;
+        case "Replace" -> command = new Replace(Integer.parseInt(stringLine.get(1)),
+            Integer.parseInt(stringLine.get(2)));
       }
       // execute command
       command.execute();
@@ -125,7 +116,7 @@ public class Load implements Command {
     // remove '[' and ']' at beginning and ending
     String content = line.substring(1, line.length() - 1);
     // split lines with \n
-    List<String> split = Arrays.asList(content.split("\n"));
+    String[] split = content.split("\n");
 
     // creat emty list
     List<List<String>> lineList = new ArrayList<List<String>>();

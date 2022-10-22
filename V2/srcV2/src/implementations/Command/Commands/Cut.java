@@ -17,12 +17,11 @@ public class Cut implements Command {
   private int start;
   // stop position parameter
   private int stop;
-  private Receiver receiver;
-  private Originator originator;
+  private final Receiver receiver;
+  private final Originator originator;
 
-  /****************************************************************************************************/
-  /*                                            Constructor                                           */
-  /****************************************************************************************************/
+  /*                                          Constructor                                         */
+  /************************************************************************************************/
   public Cut(int begin, int end) {
     start = begin;
     stop = end;
@@ -39,9 +38,9 @@ public class Cut implements Command {
     originator = new MyOriginator();
   }
 
-  /****************************************************************************************************/
-  /*                                              Methods                                             */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                            Methods                                           */
+  /************************************************************************************************/
   @Override
   public void execute() {
     receiver.copy(start, stop);

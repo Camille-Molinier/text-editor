@@ -36,9 +36,7 @@ public class Insert implements Command {
   @Override
   public void execute() {
     receiver.insert(insert, position);
-    if(insert!="¦") {
-      originator.save(SimpleBuffer.getInstance().getContent(),
-          new ArrayList<String>(Arrays.asList("Insert", insert, position + "")));
-    }
+    originator.save(SimpleBuffer.getInstance().getContent(),
+        new ArrayList<String>(Arrays.asList("Insert", insert, position + "")));
   }
 }
