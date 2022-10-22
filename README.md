@@ -81,7 +81,7 @@ Lorsque l'on lance l'interface de la V2, on remarque qu'il y a eu du changement 
     
 * Les boutons ont étés remplacés par un bandeau de menu
 * le theme de couleur a changé
-* le bandeau principal est plus petit
+* le bandeau principal est devenu un petit bandeau d'information en bas
 
 ![Interface V2](/dat/V2/Interface.png)
 
@@ -90,14 +90,14 @@ tous dans menu>edit. Cette section comporte aussi les deux nouvelles fonctionnal
 pour annuler une action ou annuler une annulation.
 
 
-On peut maintenant faire des scripts. Ces scripts enregistreront toutes les commandes jusqu'à la 
+Les scripts sont maintenant disponibles ! Ces scripts enregistreront toutes les commandes jusqu'à la 
 sauvegarde. Pour jouer un script, il faut aller dans menu>script>load et choisir le script à 
 exécuter parmi la liste des scripts disponibles.
 
 ⚠️⚠️ Veillez à bien indiquer un nom de script avant d'enregistrer. Pour nommer un script, il
 suffit d'entrer le nom voulu dans le champ "Script name".
 
-Autres fonctionnalités :
+Autres nouveautés :
 
 * Les deux curseurs sont maintenant synchrones. Pour faire une selection, il suffit de déplacer le
 deuxième curseur.
@@ -109,4 +109,14 @@ deuxième curseur.
 * Le retour chariot a été ajouté dans la liste des caractères disponibles
 
 
-* il est possible de déplacer le curseur principal avec les flèches de droite et de gauche.
+* il est possible de déplacer le curseur principal avec les flèches de droite et de gauche et le 
+second curseur avec les fleches haut et bas.
+
+⚠️⚠️ Il n'est pas possible pur le second curseur d'être devant le premier curseur.
+
+* Des raccourcis claviers sont disponibles ! 
+  * copier => ctrl + F1
+  * couper => ctrl + F2
+  * coller => ctrl + F3
+  * undo   => ctrl + F4
+  * redo   => ctrl + F5
