@@ -4,6 +4,9 @@ Ce depot git contient le projet d'éditeur de texte en java. Il a été réalis�
 du cours outils et méthodes pour le développement.
 
 Configuration de développement : Windows 11 (à jour) + IntelliJ 2022.2.2 + openJDK 18.0.2
+
+📄 Les rapports de conception et d'implémentation sont à la racine du repository
+
 ## 1️⃣V1
 
 ---
@@ -13,6 +16,10 @@ Configuration de développement : Windows 11 (à jour) + IntelliJ 2022.2.2 + ope
 Le dossier V1 de ce projet contient un dossier de conception dans lequel sont rangés tous 
 les codes plantUML qui ont servis à la conception du projet ainsi que le dossier src qui 
 contient toute implementation.
+
+Le dossier de conception est séparé entre les scripts UMLs et les images produites, cela permet de
+retrouver plus facilement les images si elles sont trop petites sur le rapport (notement le 
+diagramme de classes).
 
 Le dossier src est un module Java qui contient un dossier source (src), séparé en
 deux parties. Tout d'abord on trouve le package d'implémentation avec tous

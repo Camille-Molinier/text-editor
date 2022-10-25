@@ -6,8 +6,9 @@ skinparam packageStyle rect
 skinparam shadowing false
 
 actor User
+actor "Fichier" as sys
 
-rectangle text_editor {
+rectangle "text editor" {
     usecase "Entrer du texte" as txt
     usecase "Supprimer du texte" as select
     usecase "Copier la séléction" as cp
@@ -16,13 +17,22 @@ rectangle text_editor {
     usecase "Enregistrer des actions" as rec
     usecase "Rejouer des actions" as load
 
-  User -> txt
+    usecase "Enregstrer des contenus" as recF
+    usecase "Lire des contenus" as loadF
+
+  User --> txt
   User --> select
   User -> cp
   User -> replace
   User -> paste
   User -> rec
   User -> load
+
+  sys -left-> recF
+  sys -up-> loadF
+
+  (recF) <.up. (rec) : includes
+  (loadF) <.up. (load) : includes
 }
 
 

@@ -20,6 +20,7 @@ public class Copy implements Command {
   private final Receiver receiver;
   private final Originator originator;
 
+  /************************************************************************************************/
   /*                                          Constructor                                         */
   /************************************************************************************************/
   public Copy(int begin, int end) {

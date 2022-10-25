@@ -35,7 +35,7 @@ interface Buffer {
     + getContent()
 }
 
-class SimpleGUI {
+class MyGUI {
     + getInstance()
     + update()
 }
@@ -116,7 +116,7 @@ Receiver "1"- Command
 Receiver -down-"1" Buffer
 Receiver --down"1" Clipboard
 
-SimpleGUI -right|> GUI
+MyGUI -right|> GUI
 
 Engine -right-|> Receiver
 

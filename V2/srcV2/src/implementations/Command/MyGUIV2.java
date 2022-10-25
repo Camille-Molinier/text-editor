@@ -24,12 +24,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
+public class MyGUIV2 extends JFrame implements GUI, ActionListener, KeyListener {
   /************************************************************************************************/
   /*                                          Attributes                                          */
   /************************************************************************************************/
   // instance
-  private static volatile MyGUI instance;
+  private static volatile MyGUIV2 instance;
   // invoker
   private final Invoker invoker;
   // buffer instance
@@ -78,7 +78,7 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
   /****************************************************************************************************/
   /*                                            Constructor                                           */
   /****************************************************************************************************/
-  private MyGUI() {
+  private MyGUIV2() {
     buffer = SimpleBuffer.getInstance();
     invoker = new DummyInvoker();
     caretPosition = 0;
@@ -93,9 +93,9 @@ public class MyGUI extends JFrame implements GUI, ActionListener, KeyListener {
    *
    * @return static volatile MyGUI singleton instance
    */
-  public static MyGUI getInstance() {
+  public static MyGUIV2 getInstance() {
     if (instance == null) {
-      instance = new MyGUI();
+      instance = new MyGUIV2();
     }
     return instance;
   }

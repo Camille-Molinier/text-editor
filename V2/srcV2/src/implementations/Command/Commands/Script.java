@@ -3,37 +3,27 @@ package implementations.Command.Commands;
 import Interfaces.CareTaker;
 import Interfaces.Command;
 import Interfaces.Memento;
-import Interfaces.Originator;
-import Interfaces.Receiver;
-import implementations.Command.Engine;
-import implementations.Memento.MyOriginator;
 import implementations.Memento.StackCareTaker;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.List;
 
 public class Script implements Command {
-  /****************************************************************************************************/
-  /*                                            Attributes                                            */
-  /****************************************************************************************************/
-  private Receiver receiver;
-  private Originator originator;
-  private CareTaker careTaker;
+  /************************************************************************************************/
+  /*                                          Attributes                                          */
+  /************************************************************************************************/
+  private final CareTaker careTaker;
   private boolean isSaving;
   private String scriptName;
   private Memento startPoint;
   private static volatile Script instance;
 
-  /****************************************************************************************************/
-  /*                                            Constructor                                           */
-
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Constructor                                         */
+  /************************************************************************************************/
   private Script() {
     isSaving = true;
-    receiver = new Engine();
-    originator = new MyOriginator();
     careTaker = StackCareTaker.getInstance();
   }
 
@@ -45,9 +35,9 @@ public class Script implements Command {
     return instance;
   }
 
-  /****************************************************************************************************/
-  /*                                              Methods                                             */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                            Methods                                           */
+  /************************************************************************************************/
   @Override
   public void execute() {
     if (isSaving) {
@@ -75,8 +65,6 @@ public class Script implements Command {
     try {
       // create new file
       File output = new File("./out/production/srcV2/scripts/" + scriptName);
-      output.getParentFile().mkdirs();
-      output.createNewFile();
 
       // create wiriter
       Writer writer = new FileWriter(output);

@@ -1,19 +1,20 @@
 package implementations.Command;
 
 import Interfaces.Buffer;
+import java.util.Objects;
 
 public class SimpleBuffer implements Buffer {
-  /****************************************************************************************************/
-  /*                                            Attributes                                            */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Attributes                                          */
+  /************************************************************************************************/
   // instance of SimpleBuffer
   private static volatile SimpleBuffer instance;
   // content string
   private String content;
 
-  /****************************************************************************************************/
-  /*                                            Constructor                                           */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Constructor                                         */
+  /************************************************************************************************/
   private SimpleBuffer() {
     content = "";
   }
@@ -30,13 +31,13 @@ public class SimpleBuffer implements Buffer {
     return instance;
   }
 
-  /****************************************************************************************************/
-  /*                                              Methods                                             */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                            Methods                                           */
+  /************************************************************************************************/
   @Override
   public void addContent(String s, int position) {
     // if content is empty, insert directly
-    if (content == "") {
+    if (content.equals("")) {
       content += s;
     } else {
       // create empty string
@@ -63,7 +64,7 @@ public class SimpleBuffer implements Buffer {
   @Override
   public void deleteContent(int start, int stop) {
     // make sure content is not empty
-    if (content != "") {
+    if (!content.equals("")) {
       // make sure start<stop
       if (start > stop) {
         int tmp = stop;

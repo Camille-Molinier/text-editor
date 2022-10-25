@@ -52,7 +52,7 @@ interface CareTaker #59adf6 {
     + renew()
 }
 
-class SimpleGUI #ff6961;line.bold:C80900 {
+class MyGUIV2 #ff6961;line.bold:C80900 {
     + getInstance()
     + update()
 }
@@ -181,27 +181,26 @@ Receiver "1"- Command
 Receiver -down-"1" Buffer
 Receiver --down"1" Clipboard
 
-SimpleGUI -right|> GUI
+MyGUIV2 -right|> GUI
 
 Engine -right-|> Receiver
 
 Invoker "1"--left Command
 
-Copy -- Originator
-Paste -- Originator
-Replace -- Originator
-Delete -- Originator
-Cut -- Originator
-Insert -- Originator
-Undo -- Originator
-Redo -- Originator
-Script -- Originator
-Load -- Originator
+Copy --"1" Originator
+Paste --"1" Originator
+Replace --"1" Originator
+Delete --"1" Originator
+Cut --"1" Originator
+Insert --"1" Originator
+Undo --"1" Originator
+Redo --"1" Originator
+Load --"1" Originator
 
-CareTaker -up- Originator
-Memento -left- CareTaker
+CareTaker "1"-up-"0..*" Originator
+Memento -left-"0..*" CareTaker
 
-Script - CareTaker
+Script --"1" CareTaker
 
 Copy -up-|> Command
 Paste -up-|> Command
@@ -219,7 +218,7 @@ SimpleClipboard -up-|> Clipboard
 
 DummyInvoker -left|> Invoker
 
-MyOriginator -|> Originator
+MyOriginator -right-|> Originator
 StackCareTaker -|> CareTaker
-Snapshot -left|> Memento
+Snapshot --|> Memento
 @enduml

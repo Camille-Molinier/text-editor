@@ -2,8 +2,6 @@ package implementations.Command.Commands;
 
 import Interfaces.Command;
 import Interfaces.Originator;
-import Interfaces.Receiver;
-import implementations.Command.Engine;
 import implementations.Command.SimpleBuffer;
 import implementations.Memento.MyOriginator;
 import java.io.File;
@@ -13,9 +11,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Load implements Command {
-  /****************************************************************************************************/
-  /*                                            Attributes                                            */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Attributes                                          */
+  /************************************************************************************************/
   private final Originator originator;
   // buffer content
   private final String content;
@@ -26,18 +24,18 @@ public class Load implements Command {
   // command
   private Command command;
 
-  /****************************************************************************************************/
-  /*                                            Constructor                                           */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Constructor                                         */
+  /************************************************************************************************/
   public Load(String cont, int pos, String scriptName) {
     script = scriptName;
     position = pos;
     content = cont;
     originator = new MyOriginator();
   }
-  /****************************************************************************************************/
-  /*                                              Methods                                             */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                            Methods                                           */
+  /************************************************************************************************/
   @Override
   public void execute() {
     // try to open file and execute script
@@ -101,6 +99,11 @@ public class Load implements Command {
     }
   }
 
+  /**
+   * Revive "\n" char
+   * @param s insert param with "^"
+   * @return s with "\n" replace '^'
+   */
   private String getString(String s) {
     if(s.equals("^")){return "\n";}
     return s;

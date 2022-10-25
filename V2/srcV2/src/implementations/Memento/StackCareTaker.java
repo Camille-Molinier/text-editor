@@ -2,24 +2,23 @@ package implementations.Memento;
 
 import Interfaces.CareTaker;
 import Interfaces.Memento;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 public class StackCareTaker implements CareTaker {
-  /****************************************************************************************************/
-  /*                                            Attributes                                            */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Attributes                                          */
+  /************************************************************************************************/
   // command list
-  private Stack<Memento> commands;
+  private final Stack<Memento> commands;
   // old commands
-  private Stack<Memento> old;
+  private final Stack<Memento> old;
   // instance
   private static volatile StackCareTaker instance;
 
-  /****************************************************************************************************/
-  /*                                            Constructor                                           */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                          Constructor                                         */
+  /************************************************************************************************/
   private StackCareTaker() {
     commands = new Stack<Memento>();
     old = new Stack<Memento>();
@@ -37,9 +36,9 @@ public class StackCareTaker implements CareTaker {
     return instance;
   }
 
-  /****************************************************************************************************/
-  /*                                              Methods                                             */
-  /****************************************************************************************************/
+  /************************************************************************************************/
+  /*                                            Methods                                           */
+  /************************************************************************************************/
   @Override
   public void addMemento(Memento memento) {
     // if there is an old memento and it's equals to the memento to add, pop the old memento

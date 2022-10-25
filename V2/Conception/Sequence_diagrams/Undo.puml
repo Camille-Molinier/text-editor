@@ -10,11 +10,13 @@ participant Invoker #ff6961
 participant Undo #ff6961
 participant Originator #1677CB
 participant CareTaker #1677CB
+participant Memento #1677CB
 participant Reciever #ff6961
 participant Buffer #ff6961
 
 activate CareTaker #1677CB
 activate Invoker #ff6961
+activate Memento #1677CB
 activate GUI #ff6961
 activate Buffer #ff6961
 
@@ -34,6 +36,8 @@ Originator -> CareTaker : getMemento()
 CareTaker --> Originator : memento
 Originator --> Undo : memento
 
+Undo -> Memento : getContent()
+Memento -> Undo : content
 Undo -> Reciever : delete()
 Reciever -> Buffer : deleteContent()
 
