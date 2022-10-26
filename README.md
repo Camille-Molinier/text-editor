@@ -80,7 +80,6 @@ l'application.
 ![](/V2/srcV2/src/dat/execute.png)
 ![](/V2/srcV2/src/dat/file.png)
 ![](/V2/srcV2/src/dat/exit.png)
-![](/V2/srcV2/src/dat/redo.png)
 
 ### 🛠️Mode d'emploi
 
