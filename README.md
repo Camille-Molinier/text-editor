@@ -11,8 +11,6 @@ Development configuration : Windows 11 (updated) + IntelliJ 2022.2.2 + openJDK 1
 
 ## 1️⃣V1
 
----
-
 ### 📁 Files description
 
 The V1 folder of this project contains a design folder in which are stored all the plantUML codes 
@@ -60,8 +58,6 @@ request as an error and will make a characteristic sound. Cell does not affect t
 Cell does not affect the deletion functionality, because it is internal to the application.
 
 ## 2️⃣  V2
-
----
 
 ### 📁 Files description
 
